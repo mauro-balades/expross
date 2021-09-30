@@ -32,11 +32,8 @@ def main():
     return "<html><body><h1>Hello!</h1></body></html>"
 
 @app.request('/req')
-def main(req):
-
-    print(req)
-
-    return "<html><body><h1>request found!</h1></body></html>"
+def req(req):
+    return dict(req)
 
 @app.request('/json')
 def json():
