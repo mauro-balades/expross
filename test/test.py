@@ -1,7 +1,7 @@
 """
 The MIT License (MIT)
 
-Copyright (c) 2021 pynet
+Copyright (c) 2021 expross
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,10 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
-from pynet import PyNet
-from pynet import XMLResponse
+from expross import Expross
+from expross import XMLResponse
 
-app = PyNet()
+app = Expross()
 
 @app.request('/')
 def main():

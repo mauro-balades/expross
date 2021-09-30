@@ -3,7 +3,7 @@
 """
 The MIT License (MIT)
 
-Copyright (c) 2021 pynet
+Copyright (c) 2021 expross
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
@@ -26,21 +26,21 @@ THE SOFTWARE.
 
 from distutils.core import setup
 
-with open('pynet/__init__.py') as f:
+with open('expross/__init__.py') as f:
     info = {}
     for line in f.readlines():
         if line.startswith('version'):
             exec(line, info)
             break
 
-setup(name='PyNet',
+setup(name='Expross',
     version=info['version'],
     description='Make a web server for litle projects',
     author='Mauro Balades',
     author_email='mauro.balades@tutanota.com',
-    url='https://github.com/mauro-balades/PyNet',
+    url='https://github.com/mauro-balades/Expross',
     packages=[
-        'pynet'
+        'expross'
     ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
