@@ -4,7 +4,7 @@ description: This are the official documents for Expross
 
 # 🌟 Expross
 
-## IntroductionI
+## Introductions
 
  Expross is a light weight web server to provide little organizations have a secure, fast web server.
 
