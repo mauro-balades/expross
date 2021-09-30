@@ -22,40 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
-from pynet import PyNet
-from pynet import XMLResponse
+class NoRouteName(Exception):
+    pass
 
-app = PyNet()
+class NoMethodSpecified(Exception):
+    pass
 
-@app.request('/')
-def main():
-    return "<html><body><h1>Hello!</h1></body></html>"
-
-@app.request('/req')
-def main(req):
-
-    print(req)
-
-    return "<html><body><h1>request found!</h1></body></html>"
-
-@app.request('/json')
-def json():
-    return {
-        'test': 'test'
-    }
-
-@app.request('/xml')
-def xml():
-
-    _xml = """<?xml version="1.0" encoding="UTF-8"?>
-        <note>
-            <to>Tove</to>
-            <from>Jani</from>
-            <heading>Reminder</heading>
-            <body>Don't forget me this weekend!</body>
-        </note>
-    """
-
-    return XMLResponse(_xml)
-
-app.start()
+class NoFunctionSpecified(Exception):
+    pass

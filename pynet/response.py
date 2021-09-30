@@ -22,40 +22,43 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
-from pynet import PyNet
-from pynet import XMLResponse
+class HTMLResponse(object):
 
-app = PyNet()
+    def __init__(self, content: str, *argv, **kwargs):
 
-@app.request('/')
-def main():
-    return "<html><body><h1>Hello!</h1></body></html>"
+        self.content = content
+        self.code = int(kwargs.get('code', 200))
 
-@app.request('/req')
-def main(req):
+    def __str__(self):
+        return self.content
 
-    print(req)
+class XMLResponse(object):
 
-    return "<html><body><h1>request found!</h1></body></html>"
+    def __init__(self, content: str, *argv, **kwargs):
 
-@app.request('/json')
-def json():
-    return {
-        'test': 'test'
-    }
+        self.content = content
+        self.code = int(kwargs.get('code', 200))
+        
+    def __str__(self):
+        return self.content
 
-@app.request('/xml')
-def xml():
+class JSONResponse(object):
 
-    _xml = """<?xml version="1.0" encoding="UTF-8"?>
-        <note>
-            <to>Tove</to>
-            <from>Jani</from>
-            <heading>Reminder</heading>
-            <body>Don't forget me this weekend!</body>
-        </note>
-    """
+    def __init__(self, content: dict, *argv, **kwargs):
 
-    return XMLResponse(_xml)
+        self.content = content
+        self.code = int(kwargs.get('code', 200))
 
-app.start()
+    def __str__(self):
+        return self.content
+
+class CustomResponse(object):
+
+    def __init__(self, content: dict, *argv, **kwargs):
+
+        self.content = content
+        self.code = int(kwargs.get('code', 200))
+        self.contentType = kwargs.get('type', 'text/plain')
+
+    def __str__(self):
+        return self.content

@@ -23,6 +23,7 @@ THE SOFTWARE.
 """
 
 from pynet.server import web_server_wrapper
+from pynet.routes import Route
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 methods = [
@@ -57,14 +58,14 @@ class PyNet(object):
     :type route: str
     :type methods: <Method>(GET, POST, PUT, DELETE)
     """
-    def request(self, route: str, methods: list = ['GET']):
+    def request(self, route: str = None, methods: list = ['GET']):
 
         def decorator(func):
-            self.routes.append({
-                'route': route,
-                'func': func,
-                'methods': methods
-            })
+            self.routes.append(Route(
+                route = route,
+                methods = methods,
+                func = func
+            ))
 
         return decorator
 

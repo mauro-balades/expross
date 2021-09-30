@@ -25,3 +25,4 @@ THE SOFTWARE.
 version = '1.0.0'
 
 from pynet.main import PyNet
+from pynet.response import HTMLResponse, CustomResponse, JSONResponse, XMLResponse
