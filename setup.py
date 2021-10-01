@@ -38,10 +38,13 @@ setup(name='Expross',
     description='Make a web server for litle projects',
     author='Mauro Balades',
     author_email='mauro.balades@tutanota.com',
-    url='https://github.com/mauro-balades/Expross',
+    url='https://github.com/mauro-balades/expross',
     packages=[
         'expross'
     ],
+    requirements=[
+        'url_parser',
+    ]
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: MacOS X',
