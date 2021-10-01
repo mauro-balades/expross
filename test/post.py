@@ -23,36 +23,18 @@ THE SOFTWARE.
 """
 
 from expross import Expross
-from expross import XMLResponse
 
 app = Expross()
 
-@app.request('/')
+
+@app.get("/")
 def main():
-    return "<html><body><h1>Hello!</h1></body></html>"
+    return app.render_template("post.html")
 
-@app.request('/req')
-def req(req):
-    return dict(req)
 
-@app.request('/json')
-def json():
-    return {
-        'test': 'test'
-    }
+@app.post("/test")
+def main():
+    return app.req.post_data
 
-@app.request('/xml')
-def xml():
 
-    _xml = """<?xml version="1.0" encoding="UTF-8"?>
-        <note>
-            <to>Tove</to>
-            <from>Jani</from>
-            <heading>Reminder</heading>
-            <body>Don't forget me this weekend!</body>
-        </note>
-    """
-
-    return XMLResponse(_xml)
-
-app.start()
+app.listen()

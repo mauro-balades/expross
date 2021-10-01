@@ -22,48 +22,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
-from expross.errors import NoRouteName, NoFunctionSpecified
+from expross import Expross
+from expross import XMLResponse
 
-"""
-A class to contain all of the information a router should have
-"""
+app = Expross()
 
 
-class Route(object):
+@app.get("/")
+def xml():
 
-    """
-    create a new route
-    """
-
-    def __init__(self, *argv, **kwargs):
-
-        self.route = kwargs.get("route", None)
-        self.methods = kwargs.get("method", "GET")
-        self.function = kwargs.get("func", None)
-
-        if self.route is None:
-            raise NoRouteName("Route should be specified")
-        if self.function is None or type(self.function) == object:
-            raise NoFunctionSpecified("a functio should be specified")
-
-    """
-    checks if a methos is balid
-
-    :param method: method to be questioned
+    _xml = """<?xml version="1.0" encoding="UTF-8"?>
+        <note>
+            <to>Tove</to>
+            <from>Jani</from>
+            <heading>Reminder</heading>
+            <body>Don't forget me this weekend!</body>
+        </note>
     """
 
-    def is_valid_method(self, method: str):
-        return method in self.methods
+    return XMLResponse(_xml)
 
-    def __repr__(self):
-        return '<Route route="%s" function=%s method="%s">' % (
-            self.route,
-            self.function,
-            self.methods,
-        )
 
-    def __str__(self):
-        return self.route
-
-    def __call__(self, *argv, **kwargs):
-        return self.function(*argv, **kwargs)
+app.listen()

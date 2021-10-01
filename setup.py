@@ -26,45 +26,45 @@ THE SOFTWARE.
 
 from distutils.core import setup
 
-with open('expross/__init__.py') as f:
+with open("expross/__init__.py") as f:
     info = {}
     for line in f.readlines():
-        if line.startswith('version'):
+        if line.startswith("version"):
             exec(line, info)
             break
 
-setup(name='Expross',
-    version=info['version'],
-    description='Make a web server for litle projects',
-    author='Mauro Balades',
-    author_email='mauro.balades@tutanota.com',
-    url='https://github.com/mauro-balades/expross',
-    packages=[
-        'expross'
-    ],
+setup(
+    name="Expross",
+    version=info["version"],
+    description="Make a web server for litle projects",
+    author="Mauro Balades",
+    author_email="mauro.balades@tutanota.com",
+    url="https://github.com/mauro-balades/expross",
+    packages=["expross"],
     requirements=[
-        'url_parser',
-    ]
-    classifiers=[
-        'Development Status :: 5 - Production/Stable',
-        'Environment :: MacOS X',
-        'Environment :: Win32 (MS Windows)',
-        'Environment :: X11 Applications',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: BSD License',
-        'Operating System :: MacOS :: MacOS X',
-        'Operating System :: Microsoft :: Windows',
-        'Operating System :: POSIX :: Linux',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
-        'Programming Language :: Python :: 3.9',
-        'Topic :: Games/Entertainment',
-        'Topic :: Software Development :: Libraries :: Python Modules',
+        "hiurlparser",
+        "Jinja2",
     ],
-    license='MIT',
-    long_description=open('README.md').read(),
-    long_description_content_type='text/markdown',
+    classifiers=[
+        "Development Status :: 5 - Production/Stable",
+        "Environment :: MacOS X",
+        "Environment :: Win32 (MS Windows)",
+        "Environment :: X11 Applications",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: BSD License",
+        "Operating System :: MacOS :: MacOS X",
+        "Operating System :: Microsoft :: Windows",
+        "Operating System :: POSIX :: Linux",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Topic :: Games/Entertainment",
+        "Topic :: Software Development :: Libraries :: Python Modules",
+    ],
+    license="MIT",
+    long_description=open("README.md").read(),
+    long_description_content_type="text/markdown",
     zip_safe=True,
- )
+)

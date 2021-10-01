@@ -22,7 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
-version = "1.0.0"
+from expross import Expross
 
-from expross.main import Expross
-from expross.response import HTMLResponse, CustomResponse, JSONResponse, XMLResponse
+app = Expross()
+
+
+@app.get("/")
+def template():
+    return app.redirect("https://google.com")
+
+
+app.listen()

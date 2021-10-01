@@ -22,11 +22,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
-class NoRouteName(Exception):
-    pass
 
-class NoMethodSpecified(Exception):
-    pass
+class NoRouteName(Exception):
+    """when a router's name has not been specified"""
+
 
 class NoFunctionSpecified(Exception):
-    pass
+    """when a router's function has not been specified"""
+
+
+class RouteAlreadyExists(Exception):
+    """when a router is repeated"""
+
+
+class RedirectPlease(Exception):
+    """redirect an use (and yes, this is not really an error)"""

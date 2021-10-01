@@ -22,43 +22,43 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
-class HTMLResponse(object):
 
+class HTMLResponse(object):
     def __init__(self, content: str, *argv, **kwargs):
 
         self.content = content
-        self.code = int(kwargs.get('code', 200))
+        self.code = int(kwargs.get("code", 200))
 
     def __str__(self):
         return self.content
+
 
 class XMLResponse(object):
-
     def __init__(self, content: str, *argv, **kwargs):
 
         self.content = content
-        self.code = int(kwargs.get('code', 200))
-        
+        self.code = int(kwargs.get("code", 200))
+
     def __str__(self):
         return self.content
+
 
 class JSONResponse(object):
-
     def __init__(self, content: dict, *argv, **kwargs):
 
         self.content = content
-        self.code = int(kwargs.get('code', 200))
+        self.code = int(kwargs.get("code", 200))
 
     def __str__(self):
         return self.content
 
-class CustomResponse(object):
 
+class CustomResponse(object):
     def __init__(self, content: dict, *argv, **kwargs):
 
         self.content = content
-        self.code = int(kwargs.get('code', 200))
-        self.contentType = kwargs.get('type', 'text/plain')
+        self.code = int(kwargs.get("code", 200))
+        self.contentType = kwargs.get("type", "text/plain")
 
     def __str__(self):
         return self.content

@@ -1,12 +1,8 @@
-
-
 # How to contribute
 
 ### Instructions
 
 To contribute, you will need to create a [pull request](https://github.com/mauro-balades/expross/pulls) and type in the follow information:
-
-
 
 ```
 # Description
@@ -51,4 +47,3 @@ Please describe the tests that you ran to verify your changes. Provide instructi
 
 <!-- ### What next?
 once you have compleated the markdown guide -->
-

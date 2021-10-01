@@ -22,7 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
-version = "1.0.0"
+from expross import Expross
 
-from expross.main import Expross
-from expross.response import HTMLResponse, CustomResponse, JSONResponse, XMLResponse
+app = Expross()
+
+# Return 404, this is not for display a 404 page
+@app.get("/")
+def test():
+    return "this should return 404", 404
+
+
+app.listen()
