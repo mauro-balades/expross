@@ -22,25 +22,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
+from expross.response import *
+from expross.types import ContentTypes
 
-class NoRouteName(Exception):
-    """when a router's name has not been specified"""
-
-class NoFunctionSpecified(Exception):
-    """when a router's function has not been specified"""
-
-class RouteAlreadyExists(Exception):
-    """when a router is repeated"""
-    
-class MethodNotAvailable(Exception):
-    """this is triggered when a method is not avaiable for a route"""
-
-class ErrorCodeExists(Exception):
-    """When a error code (like 404) is repeated"""
+import inspect
+import msgpack
 
 
-class ErrorHandlerExists(Exception):
-    """This is triggered when a function with same name has another error code"""
+def get_response(data):
 
-class CustomBaseException(Exception):
-    """Error used for server errors like 500 or 404"""
+    _type = type(data)
+    content = ContentTypes.TEXT
+
+    if _type == str:
+        content = ContentTypes.HTML
+    elif _type == dict:
+        content = ContentTypes.JSON
+    elif inspect.isclass(data):
+        content = data.type
+
+    return bytes(str(data), "utf-8"), content

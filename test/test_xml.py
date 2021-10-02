@@ -22,25 +22,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
+from expross import Expross
+from expross import json
 
-class NoRouteName(Exception):
-    """when a router's name has not been specified"""
-
-class NoFunctionSpecified(Exception):
-    """when a router's function has not been specified"""
-
-class RouteAlreadyExists(Exception):
-    """when a router is repeated"""
-    
-class MethodNotAvailable(Exception):
-    """this is triggered when a method is not avaiable for a route"""
-
-class ErrorCodeExists(Exception):
-    """When a error code (like 404) is repeated"""
+app = Expross()
 
 
-class ErrorHandlerExists(Exception):
-    """This is triggered when a function with same name has another error code"""
+@app.get("/")
+def test_xml():
 
-class CustomBaseException(Exception):
-    """Error used for server errors like 500 or 404"""
+    _xml = """<?xml version="1.0" encoding="UTF-8"?>
+        <note>
+            <to>Tove</to>
+            <from>Jani</from>
+            <heading>Reminder</heading>
+            <body>Don't forget me this weekend!</body>
+        </note>
+    """
+
+    return xml(_xml)
+
+
+app.listen()

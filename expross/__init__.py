@@ -25,4 +25,11 @@ THE SOFTWARE.
 version = "1.0.0"
 
 from expross.main import Expross
-from expross.response import HTMLResponse, CustomResponse, JSONResponse, XMLResponse
+
+from expross.response import html
+from expross.response import json
+from expross.response import json
+
+from expross.types import ContentTypes
+
+from falcon.errors import *

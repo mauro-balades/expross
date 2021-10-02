@@ -23,14 +23,19 @@ THE SOFTWARE.
 """
 from __future__ import absolute_import
 
-from expross.server import web_server_wrapper
 from expross.routes import Route
-from expross.request import Request
 from expross.errors import RouteAlreadyExists, RedirectPlease
+from expross.errors import ErrorHandlerExists, ErrorCodeExists
+from expross.error import ErrorHandler
 
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from wsgiref.simple_server import make_server
+
 from jinja2 import Template
 from jinja2 import Environment, FileSystemLoader
+
+import falcon
+from falcon import Request
+from falcon import HTTPFound
 
 """
 Expross is a web server for litle web projects
@@ -54,16 +59,19 @@ class Expross(object):
 
         super(object, self).__init__()
 
-        self.default_port = kwargs.get("port", self.default_port)
-        self.default_host_name = kwargs.get("host_name", self.default_port)
+        self.default_port: int = kwargs.get("port", self.default_port)
+        self.default_host_name: str = kwargs.get("host_name", self.default_port)
 
         self.routes = []
-        self.req = object
+        self.errors = []
+        self.req: Request = None
+
+        self.app: falcon.App = falcon.App()
 
         # Jinja2 initialitaion
-        _templates = kwargs.get("templates", self.default_templates)
-        file_loader = FileSystemLoader(_templates)
-        self.jinja_env = Environment(loader=file_loader)
+        _templates: str = kwargs.get("templates", self.default_templates)
+        file_loader: FileSystemLoader = FileSystemLoader(_templates)
+        self.jinja_env: Environment = Environment(loader=file_loader)
 
         # Default config
         self.jinja_env.trim_blocks = True
@@ -77,9 +85,39 @@ class Expross(object):
     :type route: str
     """
 
-    def get(self, route: str = None):
+    def get(self, _route: str = None):
         def decorator(func):
-            self.routes.append(Route(route=route, method="GET", func=func))
+            self._check_for_repeated_route(_route, "GET", func)
+            _repeated = self._check_for_mentioned_route(_route)
+
+            if _repeated:
+                _repeated.methods.append("GET")
+            else:
+                route = Route(route=_route, methods=["GET"], func=func, app=self)
+                self.app.add_route(_route, route)
+                self.routes.append(route)
+
+        return decorator
+
+    """
+    add a error handler to the server
+
+    :param error: error to handle
+    :type error: int
+    """
+
+    def error(self, error):
+        def decorator(func):
+
+            for err in self.errors:
+                if err.func.__name__ == func.__name__:
+                    raise ErrorHandlerExists("Same error function exists")
+                elif err.error == error:
+                    raise ErrorCodeExists(f"Code for {error} is already being handled")
+
+            handler = ErrorHandler(error, func, self)
+            self.app.add_error_handler(error, handler.handle)
+            self.errors.append(handler)
 
         return decorator
 
@@ -90,15 +128,34 @@ class Expross(object):
     :type route: str
     """
 
-    def post(self, route: str = None):
+    def post(self, _route: str = None):
         def decorator(func):
-            self.routes.append(Route(route=route, method="POST", func=func))
+            self._check_for_repeated_route(_route, "POST", func)
+            _repeated = self._check_for_mentioned_route(_route)
+
+            if _repeated:
+                _repeated.methods.append("POST")
+            else:
+                route = Route(route=_route, methods=["POST"], func=func, app=self)
+                self.app.add_route(_route, route)
+                self.routes.append(route)
 
         return decorator
 
-    def _check_for_repeated_route(self, name, method):
+    def _check_for_mentioned_route(self, name):
         for route in self.routes:
-            if name == str(route) and method == route.method:
+            if str(route) == name:
+                return route
+
+        return None
+
+    def _check_for_repeated_route(self, name, method, function):
+        for route in self.routes:
+            if (
+                name == str(route)
+                and method in route.methods
+                or route.function.__name__ == function.__name__
+            ):
                 raise RouteAlreadyExists(
                     f"Router with name {name} ({method}) already exists"
                 )
@@ -116,16 +173,11 @@ class Expross(object):
         self.default_port = serverPort
         self.default_host_name = hostName
 
-        webServer = HTTPServer((hostName, serverPort), web_server_wrapper(self))
-        print("Server started http://%s:%s" % (hostName, serverPort))
+        with make_server(hostName, serverPort, self.app) as httpd:
+            print("Server started http://%s:%s" % (hostName, serverPort))
 
-        try:
-            webServer.serve_forever()
-        except KeyboardInterrupt:
-            pass
-
-        webServer.server_close()
-        print("Server stopped.")
+            # Serve until process is killed
+            httpd.serve_forever()
 
     def url_for(self, name: str):
         for route in self.routes:
@@ -138,8 +190,8 @@ class Expross(object):
     Redirects to the specified location using the provided http_code (defaults to HTTP_302 FOUND)
     """
 
-    def redirect(self, location: str, code: int = 302):
-        raise RedirectPlease(location, code)
+    def redirect(self, location: str):
+        raise HTTPFound(location)
 
     """
     render a jinja2 string with some context

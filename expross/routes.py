@@ -23,13 +23,15 @@ THE SOFTWARE.
 """
 
 from expross.errors import NoRouteName, NoFunctionSpecified
+from expross.resource import Resource
+from typing import Callable
 
 """
 A class to contain all of the information a router should have
 """
 
 
-class Route(object):
+class Route(Resource):
 
     """
     create a new route
@@ -37,14 +39,15 @@ class Route(object):
 
     def __init__(self, *argv, **kwargs):
 
-        self.route = kwargs.get("route", None)
-        self.methods = kwargs.get("method", "GET")
-        self.function = kwargs.get("func", None)
+        self.route: str = kwargs.get("route", None)
+        self.methods: list = kwargs.get("methods", ["GET"])
+        self.function: Callable = kwargs.get("func", None)
+        self.app: __import__("expross").Expross = kwargs.get("app")
 
         if self.route is None:
             raise NoRouteName("Route should be specified")
         if self.function is None or type(self.function) == object:
-            raise NoFunctionSpecified("a functio should be specified")
+            raise NoFunctionSpecified("a function should be specified")
 
     """
     checks if a methos is balid
@@ -56,7 +59,7 @@ class Route(object):
         return method in self.methods
 
     def __repr__(self):
-        return '<Route route="%s" function=%s method="%s">' % (
+        return '<Route route="%s" function=%s methods=[%s]>' % (
             self.route,
             self.function,
             self.methods,

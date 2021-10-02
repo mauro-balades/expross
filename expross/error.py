@@ -22,25 +22,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
+from typing import Callable
+from expross.utils import get_response
+from expross.errors import CustomBaseException
 
-class NoRouteName(Exception):
-    """when a router's name has not been specified"""
-
-class NoFunctionSpecified(Exception):
-    """when a router's function has not been specified"""
-
-class RouteAlreadyExists(Exception):
-    """when a router is repeated"""
-    
-class MethodNotAvailable(Exception):
-    """this is triggered when a method is not avaiable for a route"""
-
-class ErrorCodeExists(Exception):
-    """When a error code (like 404) is repeated"""
+"""Handles errors like 404"""
 
 
-class ErrorHandlerExists(Exception):
-    """This is triggered when a function with same name has another error code"""
+class ErrorHandler(CustomBaseException):
+    def __init__(self, error: int, function: Callable, app):
 
-class CustomBaseException(Exception):
-    """Error used for server errors like 500 or 404"""
+        self.error = error
+        self.func = function
+        self.app = app
+
+    def handle(self, ex, req, resp, params):
+        data = self.func()
+        res, type = get_response(data)
+
+        resp.content_type = type
+        resp.data = res
+        resp.status = int(self._get_code(ex.status))
+
+    def _get_code(self, code):
+        # Get first 3 digits
+        return code[:3]

@@ -22,43 +22,81 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
+from expross.types import ContentTypes
 
-class HTMLResponse(object):
+
+class html(object):
     def __init__(self, content: str, *argv, **kwargs):
 
         self.content = content
         self.code = int(kwargs.get("code", 200))
+        self.type = ContentTypes.HTML
 
     def __str__(self):
         return self.content
 
 
-class XMLResponse(object):
+class json(object):
     def __init__(self, content: str, *argv, **kwargs):
 
         self.content = content
         self.code = int(kwargs.get("code", 200))
+        self.type = ContentTypes.JSON
 
     def __str__(self):
         return self.content
 
 
-class JSONResponse(object):
+class xml(object):
     def __init__(self, content: dict, *argv, **kwargs):
 
         self.content = content
         self.code = int(kwargs.get("code", 200))
+        self.type = ContentTypes.XML
 
     def __str__(self):
         return self.content
 
 
-class CustomResponse(object):
+class text(object):
     def __init__(self, content: dict, *argv, **kwargs):
 
         self.content = content
         self.code = int(kwargs.get("code", 200))
-        self.contentType = kwargs.get("type", "text/plain")
+        self.type = ContentTypes.TEXT
+
+    def __str__(self):
+        return self.content
+
+
+class csv(object):
+    def __init__(self, content: dict, *argv, **kwargs):
+
+        self.content = content
+        self.code = int(kwargs.get("code", 200))
+        self.type = ContentTypes.CSV
+
+    def __str__(self):
+        return self.content
+
+
+class zip(object):
+    def __init__(self, content: dict, *argv, **kwargs):
+
+        self.content = content
+        self.code = int(kwargs.get("code", 200))
+        self.type = ContentTypes.ZIP
+
+    def __str__(self):
+        return self.content
+
+
+class pdf(object):
+    def __init__(self, content: dict, *argv, **kwargs):
+
+        self.content = content
+        self.code = int(kwargs.get("code", 200))
+        self.type = ContentTypes.PDF
 
     def __str__(self):
         return self.content

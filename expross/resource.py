@@ -22,25 +22,42 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
-from expross import Expross
-from expross import XMLResponse
+from expross.errors import MethodNotAvailable
+from expross.utils import get_response
 
-app = Expross()
+from falcon import Request, Response
 
-
-@app.get("/")
-def xml():
-
-    _xml = """<?xml version="1.0" encoding="UTF-8"?>
-        <note>
-            <to>Tove</to>
-            <from>Jani</from>
-            <heading>Reminder</heading>
-            <body>Don't forget me this weekend!</body>
-        </note>
-    """
-
-    return XMLResponse(_xml)
+"""
+A request handler for expross
+"""
 
 
-app.listen()
+class Resource:
+    def _check_for_method(self, method):
+        if not method in self.methods:
+            raise MethodNotAvailable(f"Method {method} is not avaiable for this route")
+
+    def _get_res_and_code(self):
+        data = self.function()
+
+        try:
+            res, code = data
+        except ValueError:
+            res = data
+            code = 200
+
+        return res, code
+
+    def on_get(self, req: Request, resp: Response):
+        self._check_for_method("GET")
+
+        self.app.req: Request = req
+        res, code = self._get_res_and_code()
+        data, type = get_response(res)
+
+        resp.status = code
+        resp.data = data
+        resp.content_type = type
+
+    def on_post(self, req: Request, resp: Response):
+        self._check_for_method("POST")

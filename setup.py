@@ -44,6 +44,7 @@ setup(
     requirements=[
         "hiurlparser",
         "Jinja2",
+        "msgpack",
     ],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
