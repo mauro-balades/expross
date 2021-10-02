@@ -27,6 +27,7 @@ from expross import HTTPNotFound
 
 app = Expross()
 
+app.serve_static()
 
 @app.error(HTTPNotFound)
 def err():

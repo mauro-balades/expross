@@ -32,9 +32,11 @@ from wsgiref.simple_server import make_server
 from jinja2 import Template
 from jinja2 import Environment, FileSystemLoader
 
-import falcon
 from falcon import Request
 from falcon import HTTPFound
+
+import falcon
+import os
 
 """
 Expross is a web server for litle web projects
@@ -46,6 +48,7 @@ class Expross(object):
     default_host_name = "localhost"
     default_port = 8000
     default_templates = "templates"
+    default_static = "public"
 
     """
     Init Expross
@@ -77,6 +80,11 @@ class Expross(object):
         self.jinja_env.lstrip_blocks = True
         self.jinja_env.rstrip_blocks = True
 
+    def serve_static(self, route: str = "/" + default_static, folder: str = "./" + default_static):
+        current = os.getcwd()
+        folder = os.path.join(current, folder)
+        self.app.add_static_route(route, folder)
+
     """
     add a route to the server with GET method
 
@@ -97,6 +105,10 @@ class Expross(object):
                 self.routes.append(route)
 
         return decorator
+
+    def set_templates(self, name: str):
+        file_loader: FileSystemLoader = FileSystemLoader(name)
+        self.jinja_env: Environment = Environment(loader=file_loader)
 
     """
     add a error handler to the server
