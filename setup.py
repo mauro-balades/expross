@@ -36,7 +36,7 @@ with open("expross/__init__.py") as f:
 setup(
     name="Expross",
     version=info["version"],
-    description="Make a web server for litle projects",
+    description="Expross is a lightweight web server to introduce JavaScript developers familiar with Express to Python.",
     author="Mauro Balades",
     author_email="mauro.balades@tutanota.com",
     url="https://github.com/mauro-balades/expross",
