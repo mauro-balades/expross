@@ -24,7 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
-from distutils.core import setup
+from setuptools import setup
 
 with open("expross/__init__.py") as f:
     info = {}
@@ -44,8 +44,11 @@ setup(
     requirements=[
         "hiurlparser",
         "Jinja2",
-        "msgpack",
+        "falcon",
     ],
+    project_urls={
+        "Documentation": "https://mauro-balades.gitbook.io/expross/",
+    },
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: MacOS X",
@@ -67,5 +70,4 @@ setup(
     license="MIT",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    zip_safe=True,
 )

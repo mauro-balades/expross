@@ -26,7 +26,6 @@ from expross.response import *
 from expross.types import ContentTypes
 
 import inspect
-import msgpack
 
 
 def get_response(data):
