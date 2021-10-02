@@ -24,7 +24,6 @@ THE SOFTWARE.
 from __future__ import absolute_import
 
 from expross.routes import Route
-from expross.errors import RouteAlreadyExists, RedirectPlease
 from expross.errors import ErrorHandlerExists, ErrorCodeExists
 from expross.error import ErrorHandler
 

@@ -41,23 +41,27 @@ class Resource:
         data = self.function()
 
         try:
-            res, code = data
+            res, code, content_type = data
         except ValueError:
-            res = data
-            code = 200
+            try:
+                content_type = None
+                res, code = data
+            except ValueError:
+                res = data
+                code = 200
 
-        return res, code
+        return res, code, content_type
 
     def on_get(self, req: Request, resp: Response):
         self._check_for_method("GET")
 
         self.app.req: Request = req
-        res, code = self._get_res_and_code()
+        res, code, content_type = self._get_res_and_code()
         data, type = get_response(res)
 
         resp.status = code
         resp.data = data
-        resp.content_type = type
+        resp.content_type = type if content_type is None else content_type
 
     def on_post(self, req: Request, resp: Response):
         self._check_for_method("POST")
