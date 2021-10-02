@@ -27,25 +27,63 @@ from expross.utils import get_response
 
 from falcon import Request, Response
 
-"""
-A request handler for expross
-"""
-
-
 class Resource:
-    def _check_for_method(self, method):
+    """This used every request the server recieves
+
+    Note:
+        This is a wrapper for <Route> class, if you whant to see arguments,
+        methods, raises and functions, there is the place to find it
+        (expross/routes.py)
+    """
+
+    def _check_for_method(self, method: str):
+        """check if a method is valid
+
+        Args:
+            method (str): This is the method to be evaluated
+
+        Raises:
+            MethodNotAvailable: this is triggered when a method is not avaiable for a route
+
+        Note:
+            There is a diference between this function and the one on (expross/routes.py).
+            If a method is not valid here, we raise an exception <MethodNotAvailable>. and in
+            the one the route is, it just returns True if it is valid.
+        """
         if not method in self.methods:
             raise MethodNotAvailable(f"Method {method} is not avaiable for this route")
 
-    def _get_res_and_code(self):
+    def _get_packed_result(self):
+        """Get a complete version of the function's response
+
+        Returns:
+            any: The result the response will have as body
+            int: status code for the response
+
+            Note:
+                If code is a string, we are assuming that it is the
+                content-type response. So code will be defaulted to
+                200 and content_type will now be code
+
+            str: Content-type of the response
+        """
+        # TODO: add arguments if the have a templated url
         data = self.function()
 
+        # TODO: clean a bit this code.
         try:
             res, code, content_type = data
         except ValueError:
             try:
                 content_type = None
                 res, code = data
+
+                # If code is a string, we assume
+                # it is the content-type.
+                if type(code) == str:
+                    content_type = code
+                    code = 200
+
             except ValueError:
                 res = data
                 code = 200
@@ -53,10 +91,19 @@ class Resource:
         return res, code, content_type
 
     def on_get(self, req: Request, resp: Response):
+        """Triggered when a GET request has been requested
+
+        Args:
+            req (Request): This information from the request
+            resp (Response, optional): Response information
+        """
         self._check_for_method("GET")
 
         self.app.req: Request = req
-        res, code, content_type = self._get_res_and_code()
+        self.app.res: Response = resp
+        res, code, content_type = self._get_packed_result()
+
+        # Get response's data in bytes
         data, type = get_response(res)
 
         resp.status = code
@@ -64,4 +111,21 @@ class Resource:
         resp.content_type = type if content_type is None else content_type
 
     def on_post(self, req: Request, resp: Response):
+        """Triggered when a POST request has been requested
+
+        Args:
+            req (Request): This information from the request
+            resp (Response, optional): Response information
+        """
         self._check_for_method("POST")
+
+        self.app.req: Request = req
+        self.app.res: Response = resp
+        res, code, content_type = self._get_packed_result()
+
+        # Get response's data in bytes
+        data, type = get_response(res)
+
+        resp.status = code
+        resp.data = data
+        resp.content_type = type if content_type is None else content_type

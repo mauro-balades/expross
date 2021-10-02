@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
-version = "1.0.2"
+version = "1.0.3"
 
 from expross.main import Expross
 
@@ -33,3 +33,55 @@ from expross.response import json
 from expross.types import ContentTypes
 
 from falcon.errors import *
+
+# Errors used for handling
+_errors = (
+    'CompatibilityError',
+    'DelimiterError',
+    'HeaderNotSupported',
+    'HTTPBadGateway',
+    'HTTPBadRequest',
+    'HTTPConflict',
+    'HTTPFailedDependency',
+    'HTTPForbidden',
+    'HTTPGatewayTimeout',
+    'HTTPGone',
+    'HTTPInsufficientStorage',
+    'HTTPInternalServerError',
+    'HTTPInvalidHeader',
+    'HTTPInvalidParam',
+    'HTTPLengthRequired',
+    'HTTPLocked',
+    'HTTPLoopDetected',
+    'HTTPMethodNotAllowed',
+    'HTTPMissingHeader',
+    'HTTPMissingParam',
+    'HTTPNetworkAuthenticationRequired',
+    'HTTPNotAcceptable',
+    'HTTPNotFound',
+    'HTTPNotImplemented',
+    'HTTPPayloadTooLarge',
+    'HTTPPreconditionFailed',
+    'HTTPPreconditionRequired',
+    'HTTPRangeNotSatisfiable',
+    'HTTPRequestHeaderFieldsTooLarge',
+    'HTTPRouteNotFound',
+    'HTTPServiceUnavailable',
+    'HTTPTooManyRequests',
+    'HTTPUnauthorized',
+    'HTTPUnavailableForLegalReasons',
+    'HTTPUnprocessableEntity',
+    'HTTPUnsupportedMediaType',
+    'HTTPUriTooLong',
+    'HTTPVersionNotSupported',
+    'MediaMalformedError',
+    'MediaNotFoundError',
+    'OperationNotAllowed',
+    'PayloadTypeError',
+    'UnsupportedError',
+    'UnsupportedScopeError',
+    'WebSocketDisconnected',
+    'WebSocketHandlerNotFound',
+    'WebSocketPathNotFound',
+    'WebSocketServerError',
+)

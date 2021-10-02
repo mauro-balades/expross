@@ -24,10 +24,13 @@ THE SOFTWARE.
 
 import re
 
-"""A list of content types"""
-
-
 class _ContentTypes:
+    """A list of Content-Types used for a server response
+
+    Note:
+        This class is only a wrapper and its content types can be accessed
+        from the class initiation bellow.
+    """
 
     JAVASCRIPT = "application/javascript"
     PDF = "application/pdf"

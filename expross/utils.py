@@ -27,12 +27,23 @@ from expross.types import ContentTypes
 
 import inspect
 
-
 def get_response(data):
+    """Create a response that will be directly used for a server response
+
+    Args:
+        data (any): Data to be processed to server
+
+    Returns:
+        bytes: Bytes converted from string to be ooutputed to server
+        str: Conte-Type of the output
+    """
 
     _type = type(data)
+
+    # Defaults to text/plain
     content = ContentTypes.TEXT
 
+    # We assume it is html
     if _type == str:
         content = ContentTypes.HTML
     elif _type == dict:

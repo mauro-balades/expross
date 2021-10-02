@@ -32,7 +32,7 @@ from wsgiref.simple_server import make_server
 from jinja2 import Template
 from jinja2 import Environment, FileSystemLoader
 
-from falcon import Request
+from falcon import Request, Response
 from falcon import HTTPFound
 
 import falcon
@@ -44,20 +44,28 @@ Expross is a web server for litle web projects
 
 
 class Expross(object):
+    """Expross is a lightweight web server to introduce JavaScript developers familiar with Express to Python.
+
+    Args:
+        host_name (str, optional): host name for the server. Defaults to localhost.
+        port (int, optional): port for the server to run in. Defaults to 8000.
+        templates (str, optional): Templates folder. Defaults to "templates".
+
+        Note:
+            host_name and port can be also changed when puting them as parameters
+            for the listen() function. Templates argument can also be changed by
+            using the set_templates(name: str) function
+
+    """
+
 
     default_host_name = "localhost"
     default_port = 8000
     default_templates = "templates"
     default_static = "public"
 
-    """
-    Init Expross
-
-    :param port: Optional port to the server be runned on (3000)
-    :param host_name: Optional name of server (localhost)
-    """
-
     def __init__(self, *argv, **kwargs):
+        # Initiate class
 
         super(object, self).__init__()
 
@@ -67,6 +75,7 @@ class Expross(object):
         self.routes = []
         self.errors = []
         self.req: Request = None
+        self.res: Response = None
 
         self.app: falcon.App = falcon.App()
 
@@ -81,43 +90,40 @@ class Expross(object):
         self.jinja_env.rstrip_blocks = True
 
     def serve_static(self, route: str = "/" + default_static, folder: str = "./" + default_static):
+        """Serves static files
+
+        Usage:
+            app.serve_static('/static', './static')
+
+        Args:
+            route (str, optional): route's name. Defaults to "/public".
+            folder (str, optional): folder's name. Defaults to "./public".
+        """
         current = os.getcwd()
         folder = os.path.join(current, folder)
         self.app.add_static_route(route, folder)
 
-    """
-    add a route to the server with GET method
+    def set_templates(self, name: str = "templates"):
+        """overrides the templates folder's name in the configuration
 
-    :param route: route to apply
-    :type route: str
-    """
-
-    def get(self, _route: str = None):
-        def decorator(func):
-            self._check_for_repeated_route(_route, "GET", func)
-            _repeated = self._check_for_mentioned_route(_route)
-
-            if _repeated:
-                _repeated.methods.append("GET")
-            else:
-                route = Route(route=_route, methods=["GET"], func=func, app=self)
-                self.app.add_route(_route, route)
-                self.routes.append(route)
-
-        return decorator
-
-    def set_templates(self, name: str):
+        Args:
+            name (str, optional): folder's name. Defaults to "templates".
+        """
         file_loader: FileSystemLoader = FileSystemLoader(name)
         self.jinja_env: Environment = Environment(loader=file_loader)
 
-    """
-    add a error handler to the server
-
-    :param error: error to handle
-    :type error: int
-    """
-
     def error(self, error):
+        """add an error handler to your app
+
+        Usage:
+
+            @app.error(404):
+            def error():
+                return "Ups! 404"
+
+        Args:
+            error (int | ErrorLike): error to be handled
+        """
         def decorator(func):
 
             for err in self.errors:
@@ -132,14 +138,31 @@ class Expross(object):
 
         return decorator
 
-    """
-    add a route to the server with the POST method
+    def get(self, _route: str = None):
+        """add a route to the server with the GET method
 
-    :param route: route to apply
-    :type route: str
-    """
+        Args:
+            route (str): route to be added to the router's list
+        """
+        def decorator(func):
+            self._check_for_repeated_route(_route, "GET", func)
+            _repeated = self._check_for_mentioned_route(_route)
+
+            if _repeated:
+                _repeated.methods.append("GET")
+            else:
+                route = Route(route=_route, methods=["GET"], func=func, app=self)
+                self.app.add_route(_route, route)
+                self.routes.append(route)
+
+        return decorator
 
     def post(self, _route: str = None):
+        """add a route to the server with the POST method
+
+        Args:
+            route (str): route to be added to the router's list
+        """
         def decorator(func):
             self._check_for_repeated_route(_route, "POST", func)
             _repeated = self._check_for_mentioned_route(_route)
@@ -171,16 +194,17 @@ class Expross(object):
                     f"Router with name {name} ({method}) already exists"
                 )
 
-    """
-    Start the web server
-
-    :param hostName: Name of the server (defaults to localhost)
-    :param serverPort: Port of the server (defaults to 3000)
-    :type port: int
-    """
-
     def listen(self, hostName: str = default_host_name, serverPort: int = default_port):
+        """Start a web server
 
+        Args:
+            hostName (str, optional): host name for the server. Defaults to localhost.
+            serverPort (int, optional): port for the server to run in. Defaults to 8000.
+
+        Note:
+            This function is intended to be at the bottom of the script, when
+            all routes and error handlers has been loaded
+        """
         self.default_port = serverPort
         self.default_host_name = hostName
 
@@ -191,50 +215,85 @@ class Expross(object):
             httpd.serve_forever()
 
     def url_for(self, name: str):
+        """Returns a route depending on the function's name
+
+        Args:
+            name (str): name for the function
+
+        Usage:
+
+            @app.get("/")
+            def main():
+                pass
+
+            url_for('main')
+            >> /
+
+        Returns:
+            str: If a function has been found
+            None: If no function has been found
+        """
         for route in self.routes:
             if route.function.__name__ == name:
                 return str(route)
 
         return None
 
-    """
-    Redirects to the specified location using the provided http_code (defaults to HTTP_302 FOUND)
-    """
-
     def redirect(self, location: str):
+        """Redirects to the specified location
+
+        Args:
+            location (str): Location to be redirected
+
+        Raises:
+            HTTPFound (depends on code): A Exception used to redirect user
+
+            Note:
+                Please do not do any error handling for this. This is an intentionally
+                error to redirect user.
+        """
+        # TODO: create more options based on status codes
         raise HTTPFound(location)
 
-    """
-    render a jinja2 string with some context
-
-    :param data: string to be parsed
-    :param context: additional context to give to the template
-    """
-
     def render(self, data: str, **context: any):
+        """render a jinja2 string with some context
+
+        Args:
+            data (str): string template to be parsed
+            context (any, optional): additional context to give to the template. Defaults to None.
+
+        Returns:
+            str: a rendered version of the string
+        """
         tm = Template(data)
         return tm.render(**context)
 
-    """
-    render a jinja2 string with some context
-
-    :param name: template file to be parsed
-    :param context: additional context to give to the template
-    """
-
     def render_template(self, name: str, **context: any):
+        """render a jinja2 template file with some context
+
+        Args:
+            name (str): template file to be parsed
+            context (any, optional): additional context to give to the template. Defaults to None.
+
+        Returns:
+            str: a rendered version of the template
+        """
         template = self.jinja_env.get_template(name)
         rendered = template.render(**context)
         return rendered
 
-    """
-    set a request so that user can use it
-
-    :param req: the request class
-    :type req: Request
-    """
-
     def _set_request(self, req: Request):
+        """Set a request to the app
+
+        Args: req (Request): request to be set
+        """
+        self.req = req
+
+    def _set_response(self, res: Response):
+        """Set a response to the app
+
+        Args: res (Response): request to be set
+        """
         self.req = req
 
     def __repr__(self):

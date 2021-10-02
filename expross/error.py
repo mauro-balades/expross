@@ -26,24 +26,62 @@ from typing import Callable
 from expross.utils import get_response
 from expross.errors import CustomBaseException
 
-"""Handles errors like 404"""
-
-
 class ErrorHandler(CustomBaseException):
+    """Handles any errors user whants to handle.
+
+    Args:
+        error (int): Error code that would be handled. Example: 404 or 500
+        function (Callable): Function that would be triggered when error happens
+        app (Expross): App's context to change / see its values
+    """
+
     def __init__(self, error: int, function: Callable, app):
+        # Initiate class
 
         self.error = error
         self.func = function
         self.app = app
 
     def handle(self, ex, req, resp, params):
+        """Triggered when we need to handle a specific error
+
+        Args:
+            ex (any): error from server
+            req (any): request information from the request
+            resp (any): response information
+            params (any): extra parameters
+
+        Usage:
+
+            @app.error(404):
+            def error():
+                return "Ups! 404"
+
+        Note:
+            Errors can only be registered one, an exception would
+            be raised in another function
+        """
         data = self.func()
         res, type = get_response(data)
+
+        self.app.req = req
+        self.app.res = res
 
         resp.content_type = type
         resp.data = res
         resp.status = int(self._get_code(ex.status))
 
-    def _get_code(self, code):
+    def _get_code(self, code: str):
+        """Get a code inside a error status
+
+        Args:
+            code (str): peace of string in where a code will be taken away
+
+        Example: "404 not found"
+                  ^^^
+
+        Returns:
+            str: Code extracted from string
+        """
         # Get first 3 digits
         return code[:3]
