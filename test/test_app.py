@@ -36,13 +36,15 @@ def err():
 
 @app.get("/")
 def main():
-    print(app.req)
-    return {"hello": "test"}
+
+    if app.req.params.get('pdf', None) == "active":
+        return app.redirect("/public/test.pdf")
+
+    return "<h1>Hello, world!</h1>"
 
 
-@app.post("/")
-def test():
-    return "Hello post!"
-
+@app.get("/test/{number:int}")
+def test(number: int):
+    return f"this is number is a {number}"
 
 app.listen()

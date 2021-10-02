@@ -53,8 +53,11 @@ class Resource:
         if not method in self.methods:
             raise MethodNotAvailable(f"Method {method} is not avaiable for this route")
 
-    def _get_packed_result(self):
+    def _get_packed_result(self, **context):
         """Get a complete version of the function's response
+
+        Args:
+            context (str): extra context used in uri's templates
 
         Returns:
             any: The result the response will have as body
@@ -68,7 +71,7 @@ class Resource:
             str: Content-type of the response
         """
         # TODO: add arguments if the have a templated url
-        data = self.function()
+        data = self.function(**context)
 
         # TODO: clean a bit this code.
         try:
@@ -90,7 +93,7 @@ class Resource:
 
         return res, code, content_type
 
-    def on_get(self, req: Request, resp: Response):
+    def on_get(self, req: Request, resp: Response, **context):
         """Triggered when a GET request has been requested
 
         Args:
@@ -101,7 +104,7 @@ class Resource:
 
         self.app.req: Request = req
         self.app.res: Response = resp
-        res, code, content_type = self._get_packed_result()
+        res, code, content_type = self._get_packed_result(**context)
 
         # Get response's data in bytes
         data, type = get_response(res)
@@ -121,7 +124,7 @@ class Resource:
 
         self.app.req: Request = req
         self.app.res: Response = resp
-        res, code, content_type = self._get_packed_result()
+        res, code, content_type = self._get_packed_result(**context)
 
         # Get response's data in bytes
         data, type = get_response(res)

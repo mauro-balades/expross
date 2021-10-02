@@ -26,9 +26,7 @@ version = "1.0.3"
 
 from expross.main import Expross
 
-from expross.response import html
-from expross.response import json
-from expross.response import json
+from expross.response import *
 
 from expross.types import ContentTypes
 
