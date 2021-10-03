@@ -5,7 +5,7 @@
 ## Geting started
 
 * [⚙️ Installation](geting-started/installation.md)
-* [👋 Basic ussage](geting-started/basic-ussage.md)
+* [🚀 Basic usage](geting-started/basic-ussage.md)
 
 ---
 

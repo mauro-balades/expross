@@ -2,7 +2,7 @@
 description: Instructions to create a basic app.
 ---
 
-# 👋 Basic ussage
+# 🚀 Basic usage
 
 ## Creating a basic expross application
 
