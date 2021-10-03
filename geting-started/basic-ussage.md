@@ -30,7 +30,7 @@ from expross import Expross
 
 app = Expross()
 
-@app.request("/")
+@app.get("/")
 def main():
     return "<h1>Hello!</h1>"
     

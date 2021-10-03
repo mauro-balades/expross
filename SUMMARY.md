@@ -10,4 +10,9 @@
 ---
 
 * [✍ Different responses](different-responses.md)
+* [🛑 Error handling](error-handling.md)
+* [🔗 Redirect](redirect.md)
+* [🛕 Templates](templates.md)
+* [♻️ url for](url-for.md)
+* [📦 Serve static files](serve-static-files.md)
 
