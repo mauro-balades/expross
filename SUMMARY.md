@@ -16,3 +16,8 @@
 * [♻️ url for](url-for.md)
 * [📦 Serve static folders](serve-static-files.md)
 
+## request and response
+
+* [Request and Response](https://falcon.readthedocs.io/en/stable/api/request_and_response_wsgi.html)
+* [Usage of request and response](request-and-response/usage-of-request-and-response.md)
+

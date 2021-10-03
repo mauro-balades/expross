@@ -38,5 +38,3 @@ app.start()
 ```
 {% endcode %}
 
-
-
