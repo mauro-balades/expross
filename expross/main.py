@@ -38,6 +38,7 @@ from falcon import HTTPFound
 import falcon
 import os
 
+
 class Expross(object):
     """Expross is a lightweight web server to introduce JavaScript developers familiar with Express to Python.
 
@@ -66,12 +67,14 @@ class Expross(object):
         self.default_port: int = kwargs.get("port", self.default_port)
         self.default_host_name: str = kwargs.get("host_name", self.default_port)
 
-        self.routes = []
-        self.errors = []
+        self.routes: list = []
+        self.errors: list = []
+        self.middlewares: list = kwargs.get("middlewares", [])
+
         self.req: Request = None
         self.res: Response = None
 
-        self.app: falcon.App = falcon.App()
+        self.app: falcon.App = falcon.App(middleware=self.middlewares)
 
         # Jinja2 initialitaion
         _templates: str = kwargs.get("templates", self.default_templates)
@@ -107,6 +110,10 @@ class Expross(object):
         """
         file_loader: FileSystemLoader = FileSystemLoader(name)
         self.jinja_env: Environment = Environment(loader=file_loader)
+
+    def add_middleware(self, middleware):
+        self.app.add_middleware(middleware)
+        self.middlewares.append(middleware)
 
     def error(self, error):
         """add an error handler to your app
