@@ -24,6 +24,7 @@ THE SOFTWARE.
 
 import re
 
+
 class _ContentTypes:
     """A list of Content-Types used for a server response
 

@@ -29,6 +29,7 @@ app = Expross()
 
 app.serve_static()
 
+
 @app.error(HTTPNotFound)
 def err():
     return "<h1>ups! 404</h1>"
@@ -37,7 +38,7 @@ def err():
 @app.get("/")
 def main():
 
-    if app.req.params.get('pdf', None) == "active":
+    if app.req.params.get("pdf", None) == "active":
         return app.redirect("/public/test.pdf")
 
     return "<h1>Hello, world!</h1>"
@@ -46,5 +47,6 @@ def main():
 @app.get("/test/{number:int}")
 def test(number: int):
     return f"this is number is a {number}"
+
 
 app.listen()

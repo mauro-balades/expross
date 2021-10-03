@@ -27,6 +27,7 @@ from expross.types import ContentTypes
 
 import inspect
 
+
 def get_response(data):
     """Create a response that will be directly used for a server response
 

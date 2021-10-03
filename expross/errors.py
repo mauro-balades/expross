@@ -24,73 +24,80 @@ THE SOFTWARE.
 
 # Errors
 __all__ = (
-    'CompatibilityError',
-    'DelimiterError',
-    'HeaderNotSupported',
-    'HTTPBadGateway',
-    'HTTPBadRequest',
-    'HTTPConflict',
-    'HTTPFailedDependency',
-    'HTTPForbidden',
-    'HTTPGatewayTimeout',
-    'HTTPGone',
-    'HTTPInsufficientStorage',
-    'HTTPInternalServerError',
-    'HTTPInvalidHeader',
-    'HTTPInvalidParam',
-    'HTTPLengthRequired',
-    'HTTPLocked',
-    'HTTPLoopDetected',
-    'HTTPMethodNotAllowed',
-    'HTTPMissingHeader',
-    'HTTPMissingParam',
-    'HTTPNetworkAuthenticationRequired',
-    'HTTPNotAcceptable',
-    'HTTPNotFound',
-    'HTTPNotImplemented',
-    'HTTPPayloadTooLarge',
-    'HTTPPreconditionFailed',
-    'HTTPPreconditionRequired',
-    'HTTPRangeNotSatisfiable',
-    'HTTPRequestHeaderFieldsTooLarge',
-    'HTTPRouteNotFound',
-    'HTTPServiceUnavailable',
-    'HTTPTooManyRequests',
-    'HTTPUnauthorized',
-    'HTTPUnavailableForLegalReasons',
-    'HTTPUnprocessableEntity',
-    'HTTPUnsupportedMediaType',
-    'HTTPUriTooLong',
-    'HTTPVersionNotSupported',
-    'MediaMalformedError',
-    'MediaNotFoundError',
-    'OperationNotAllowed',
-    'PayloadTypeError',
-    'UnsupportedError',
-    'UnsupportedScopeError',
-    'WebSocketDisconnected',
-    'WebSocketHandlerNotFound',
-    'WebSocketPathNotFound',
-    'WebSocketServerError',
+    "CompatibilityError",
+    "DelimiterError",
+    "HeaderNotSupported",
+    "HTTPBadGateway",
+    "HTTPBadRequest",
+    "HTTPConflict",
+    "HTTPFailedDependency",
+    "HTTPForbidden",
+    "HTTPGatewayTimeout",
+    "HTTPGone",
+    "HTTPInsufficientStorage",
+    "HTTPInternalServerError",
+    "HTTPInvalidHeader",
+    "HTTPInvalidParam",
+    "HTTPLengthRequired",
+    "HTTPLocked",
+    "HTTPLoopDetected",
+    "HTTPMethodNotAllowed",
+    "HTTPMissingHeader",
+    "HTTPMissingParam",
+    "HTTPNetworkAuthenticationRequired",
+    "HTTPNotAcceptable",
+    "HTTPNotFound",
+    "HTTPNotImplemented",
+    "HTTPPayloadTooLarge",
+    "HTTPPreconditionFailed",
+    "HTTPPreconditionRequired",
+    "HTTPRangeNotSatisfiable",
+    "HTTPRequestHeaderFieldsTooLarge",
+    "HTTPRouteNotFound",
+    "HTTPServiceUnavailable",
+    "HTTPTooManyRequests",
+    "HTTPUnauthorized",
+    "HTTPUnavailableForLegalReasons",
+    "HTTPUnprocessableEntity",
+    "HTTPUnsupportedMediaType",
+    "HTTPUriTooLong",
+    "HTTPVersionNotSupported",
+    "MediaMalformedError",
+    "MediaNotFoundError",
+    "OperationNotAllowed",
+    "PayloadTypeError",
+    "UnsupportedError",
+    "UnsupportedScopeError",
+    "WebSocketDisconnected",
+    "WebSocketHandlerNotFound",
+    "WebSocketPathNotFound",
+    "WebSocketServerError",
 )
+
 
 class NoRouteName(Exception):
     """when a router's name has not been specified"""
 
+
 class NoFunctionSpecified(Exception):
     """when a router's function has not been specified"""
+
 
 class RouteAlreadyExists(Exception):
     """when a router is repeated"""
 
+
 class MethodNotAvailable(Exception):
     """this is triggered when a method is not avaiable for a route"""
+
 
 class ErrorCodeExists(Exception):
     """When a error code (like 404) is repeated"""
 
+
 class ErrorHandlerExists(Exception):
     """This is triggered when a function with same name has another error code"""
+
 
 class CustomBaseException(Exception):
     """Error used for server errors like 500 or 404"""

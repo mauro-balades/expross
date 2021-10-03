@@ -38,11 +38,6 @@ from falcon import HTTPFound
 import falcon
 import os
 
-"""
-Expross is a web server for litle web projects
-"""
-
-
 class Expross(object):
     """Expross is a lightweight web server to introduce JavaScript developers familiar with Express to Python.
 
@@ -57,7 +52,6 @@ class Expross(object):
             using the set_templates(name: str) function
 
     """
-
 
     default_host_name = "localhost"
     default_port = 8000
@@ -89,7 +83,9 @@ class Expross(object):
         self.jinja_env.lstrip_blocks = True
         self.jinja_env.rstrip_blocks = True
 
-    def serve_static(self, route: str = "/" + default_static, folder: str = "./" + default_static):
+    def serve_static(
+        self, route: str = "/" + default_static, folder: str = "./" + default_static
+    ):
         """Serves static files
 
         Usage:
@@ -124,6 +120,7 @@ class Expross(object):
         Args:
             error (int | ErrorLike): error to be handled
         """
+
         def decorator(func):
 
             for err in self.errors:
@@ -144,6 +141,7 @@ class Expross(object):
         Args:
             route (str): route to be added to the router's list
         """
+
         def decorator(func):
             self._check_for_repeated_route(_route, "GET", func)
             _repeated = self._check_for_mentioned_route(_route)
@@ -163,6 +161,7 @@ class Expross(object):
         Args:
             route (str): route to be added to the router's list
         """
+
         def decorator(func):
             self._check_for_repeated_route(_route, "POST", func)
             _repeated = self._check_for_mentioned_route(_route)

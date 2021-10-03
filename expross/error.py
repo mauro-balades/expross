@@ -26,6 +26,7 @@ from typing import Callable
 from expross.utils import get_response
 from expross.errors import CustomBaseException
 
+
 class ErrorHandler(CustomBaseException):
     """Handles any errors user whants to handle.
 

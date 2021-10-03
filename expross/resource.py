@@ -27,6 +27,7 @@ from expross.utils import get_response
 
 from falcon import Request, Response
 
+
 class Resource:
     """This used every request the server recieves
 

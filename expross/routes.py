@@ -26,6 +26,7 @@ from expross.errors import NoRouteName, NoFunctionSpecified
 from expross.resource import Resource
 from typing import Callable
 
+
 class Route(Resource):
     """This is a router service used for every individual route
 
