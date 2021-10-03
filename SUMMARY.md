@@ -14,5 +14,5 @@
 * [🔗 Redirect](redirect.md)
 * [🛕 Templates](templates.md)
 * [♻️ url for](url-for.md)
-* [📦 Serve static files](serve-static-files.md)
+* [📦 Serve static folders](serve-static-files.md)
 
