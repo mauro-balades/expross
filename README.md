@@ -6,7 +6,7 @@ description: This are the official documents for Expross
 
 ## Introductions
 
-Expross is a lightweight web server to introduce JavaScript developers familiar with [Express](http://expressjs.com) to Python. In this docs there will be included stuff like: instalation, basic apps amongst other stuff.
+Expross is a lightweight webserver to introduce JavaScript developers familiar with [Express](http://expressjs.com) to Python. In these docs there will be included stuff like installation, basic apps amongst other stuff.
 
 {% hint style="warning" %}
  This is still in development, new things will come up and others will change,
