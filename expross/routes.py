@@ -107,7 +107,7 @@ class Route(Resource):
         return method in self.methods
 
     def __repr__(self):
-        return '<Route route="%s" function=%s methods=[%s]>' % (
+        return '<Route route="%s" function=%s methods=%s>' % (
             self.route,
             self.function,
             self.methods,

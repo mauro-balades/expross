@@ -22,14 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
-import logging
+from expross import Expross
+
+test_routes = Expross()
 
 
-def get_default_logger(level=None):
-    logger = logging.getLogger("expross")
-    logger.setLevel(logging.INFO)
-    logger.propogate = False
-    if not logger.handlers:
-        handler = logging.StreamHandler()
-        logger.addHandler(handler)
-    return logger
+@test_routes.get("/test")
+def test():
+    return f"tested from other file!"

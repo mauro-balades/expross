@@ -45,6 +45,7 @@ setup(
         "hiurlparser",
         "Jinja2",
         "falcon",
+        "minify-html",
     ],
     project_urls={
         "Documentation": "https://mauro-balades.gitbook.io/expross/",

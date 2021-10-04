@@ -23,19 +23,10 @@ THE SOFTWARE.
 """
 
 from expross import Expross
-from expross.middleware import CORS
 
-app = Expross()
-
-cors = CORS(allow_origins_list=["*"])
-app.add_middleware(cors.middleware)
-
-app.serve_static()
+test_routes = Expross()
 
 
-@app.get("/")
-def main():
-    return {"test": "hey"}
-
-
-app.listen()
+@test_routes.get("/test")
+def test():
+    return f"this is a multify test!"

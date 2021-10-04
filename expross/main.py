@@ -24,7 +24,7 @@ THE SOFTWARE.
 from __future__ import absolute_import
 
 from expross.routes import Route
-from expross.errors import ErrorHandlerExists, ErrorCodeExists
+from expross.errors import ErrorHandlerExists, ErrorCodeExists, RouteAlreadyExists
 from expross.error import ErrorHandler
 
 from wsgiref.simple_server import make_server
@@ -35,6 +35,7 @@ from jinja2 import Environment, FileSystemLoader
 from falcon import Request, Response
 from falcon import HTTPFound
 
+import minify_html
 import falcon
 import os
 
@@ -111,7 +112,21 @@ class Expross(object):
         file_loader: FileSystemLoader = FileSystemLoader(name)
         self.jinja_env: Environment = Environment(loader=file_loader)
 
-    def add_middleware(self, middleware):
+    def use(self, middleware):
+
+        if type(middleware) == type(self):
+            for r in middleware.routes:
+                nr = Route(route=str(r), methods=r.methods, func=r.function, app=self)
+                self.app.add_route(str(r), nr)
+                self.routes.append(nr)
+
+            for e in middleware.errors:
+                handler = ErrorHandler(e.error, e.func, self)
+                self.app.add_error_handler(e.error, handler.handle)
+                self.errors.append(handler)
+
+            return
+
         self.app.add_middleware(middleware)
         self.middlewares.append(middleware)
 
@@ -267,12 +282,25 @@ class Expross(object):
         Args:
             data (str): string template to be parsed
             context (any, optional): additional context to give to the template. Defaults to None.
+            _minified: (bool, optional): make html, css, js a minified version of themselve. Defaults to False
 
         Returns:
             str: a rendered version of the string
         """
+
         tm = Template(data)
-        return tm.render(**context)
+        min = context.get("_minified", False)
+        render = tm.render(**context)
+
+        if min:
+            return minify_html.minify(
+                render,
+                minify_js=True,
+                minify_css=True,
+                remove_processing_instructions=True,
+            )
+
+        return render
 
     def render_template(self, name: str, **context: any):
         """render a jinja2 template file with some context
@@ -280,12 +308,24 @@ class Expross(object):
         Args:
             name (str): template file to be parsed
             context (any, optional): additional context to give to the template. Defaults to None.
+            _minified: (bool, optional): make html, css, js a minified version of themselve. Defaults to False
 
         Returns:
             str: a rendered version of the template
         """
         template = self.jinja_env.get_template(name)
         rendered = template.render(**context)
+
+        min = context.get("_minified", False)
+
+        if min:
+            return minify_html.minify(
+                rendered,
+                minify_js=True,
+                minify_css=True,
+                remove_processing_instructions=True,
+            )
+
         return rendered
 
     def _set_request(self, req: Request):
@@ -300,7 +340,7 @@ class Expross(object):
 
         Args: res (Response): request to be set
         """
-        self.req = req
+        self.req = res
 
     def __repr__(self):
         # default_port and default_host_name are being overieded

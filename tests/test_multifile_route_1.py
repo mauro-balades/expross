@@ -23,13 +23,24 @@ THE SOFTWARE.
 """
 
 from expross import Expross
+from expross import HTTPNotFound
+from tests import test_routes
 
 app = Expross()
+app.use(test_routes)
+
+app.serve_static()
+
+
+@app.error(HTTPNotFound)
+def err():
+    return "<h1>ups! 404</h1>"
 
 
 @app.get("/")
-def template():
-    return app.render_template("test.html", test_string="This is my test string")
+def main():
+
+    return "<h1>Hello, world!</h1>"
 
 
 app.listen()

@@ -22,14 +22,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
-import logging
+from expross import Expross
+from expross.middleware import CORS
+
+app = Expross()
+
+cors = CORS(allow_origins_list=["*"])
+app.use(cors.middleware)
+
+app.serve_static()
 
 
-def get_default_logger(level=None):
-    logger = logging.getLogger("expross")
-    logger.setLevel(logging.INFO)
-    logger.propogate = False
-    if not logger.handlers:
-        handler = logging.StreamHandler()
-        logger.addHandler(handler)
-    return logger
+@app.get("/")
+def main():
+    return {"test": "hey"}
+
+
+app.listen()

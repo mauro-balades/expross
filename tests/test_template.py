@@ -22,14 +22,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
-import logging
+from expross import Expross
+
+app = Expross()
 
 
-def get_default_logger(level=None):
-    logger = logging.getLogger("expross")
-    logger.setLevel(logging.INFO)
-    logger.propogate = False
-    if not logger.handlers:
-        handler = logging.StreamHandler()
-        logger.addHandler(handler)
-    return logger
+@app.get("/")
+def template():
+    return app.render_template("test.html", test_string="This is my test string")
+
+
+@app.get("/min")
+def min():
+    return app.render_template(
+        "test.html", test_string="This is my test string", _minified=True
+    )
+
+
+app.listen()
