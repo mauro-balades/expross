@@ -24,7 +24,7 @@ app.set_templates("your folder")
 
 ## Render a template
 
-You can render a template, by giving it context
+You can render a jinja template, by giving it context
 
 ```python
 
@@ -52,12 +52,28 @@ def main():
 {% endcode %}
 
 {% hint style="info" %}
- This templates support [jinja 2](https://jinja2docs.readthedocs.io/en/stable/)
+ You can add a parameter to make this a minified version of it
+
+**NOTE:** It also minifies CSS, js inside this file and tags like `pre` or `code` won't be minified. This would be an example response:
+
+```python
+
+app.get("/")
+def main():
+    return render_template('users.html', users={...}, _minified=True)
+
+```
+
+{% code title="templates/users.html" %}
+```markup
+<!DOCTYPE html><html lang="en" dir="ltr"><head><meta charset="utf-8" /><title>...</title></head><body>...</body></html>
+```
+{% endcode %}
 {% endhint %}
 
 ## Render a string template
 
-You can render a string template, by giving it context and it also supports jinja2
+You can render a jinja string template, by giving it context and it also supports jinja2
 
 ```python
 
