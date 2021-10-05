@@ -21,6 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
+
 from __future__ import absolute_import
 
 from expross.routes import Route
@@ -53,15 +54,26 @@ class Expross(object):
             for the listen() function. Templates argument can also be changed by
             using the set_templates(name: str) function
 
+    Note:
+        Default values can be changed in diferent ways. You can change it by
+        adding parameters, define them in other functions. For example, you can
+        change host name and port number in the listen() function. Also, you can
+        directly change clas's attributes.
+
+    Warning:
+        All examples in the documentation, all references in code and in the tests.
+        This class will be placed into a variable in where it's name is "app".
+
     """
 
+    # | Default values, they can be overrided
     default_host_name = "localhost"
     default_port = 8000
     default_templates = "templates"
     default_static = "public"
 
     def __init__(self, *argv, **kwargs):
-        # Initiate class
+        # | Initiate class
 
         super(object, self).__init__()
 
@@ -87,6 +99,10 @@ class Expross(object):
         self.jinja_env.lstrip_blocks = True
         self.jinja_env.rstrip_blocks = True
 
+        # Add all middlewares
+        for i in self.middlewares:
+            self.use(i)
+
     def serve_static(
         self, route: str = "/" + default_static, folder: str = "./" + default_static
     ):
@@ -98,9 +114,24 @@ class Expross(object):
         Args:
             route (str, optional): route's name. Defaults to "/public".
             folder (str, optional): folder's name. Defaults to "./public".
+
+        Warning:
+            imagine you have a server in (http://localhost:8000). Once you have
+            called serve_static('/static', './static') function, all files inside
+            the folder param will be visible to other users. For example, if you go to
+            http://localhost:8000/static/secrete_file, user will be able to
+            see that file. So if you whant to hide secrete files, better todo
+            use a middleware or add a custom route to that file, allowing what files
+            can be visible and private.
         """
+        # | Get static folder.
+        # | falcon requires an abstract
+        # | path, in order to serve static files
         current = os.getcwd()
         folder = os.path.join(current, folder)
+
+        # | add route, abstract folder to falcon
+        # | in order to serve static.
         self.app.add_static_route(route, folder)
 
     def set_templates(self, name: str = "templates"):
@@ -135,7 +166,7 @@ class Expross(object):
 
         Usage:
 
-            @app.error(404):
+            @app.error(HTTPNotFound):
             def error():
                 return "Ups! 404"
 
@@ -241,15 +272,6 @@ class Expross(object):
         Args:
             name (str): name for the function
 
-        Usage:
-
-            @app.get("/")
-            def main():
-                pass
-
-            url_for('main')
-            >> /
-
         Returns:
             str: If a function has been found
             None: If no function has been found
@@ -269,9 +291,9 @@ class Expross(object):
         Raises:
             HTTPFound (depends on code): A Exception used to redirect user
 
-            Note:
-                Please do not do any error handling for this. This is an intentionally
-                error to redirect user.
+        Note:
+            Please do not do any error handling for this. This is an intentionally
+            error to redirect user, if it is being handled, redirects won't happend.
         """
         # TODO: create more options based on status codes
         raise HTTPFound(location)
@@ -283,6 +305,10 @@ class Expross(object):
             data (str): string template to be parsed
             context (any, optional): additional context to give to the template. Defaults to None.
             _minified: (bool, optional): make html, css, js a minified version of themselve. Defaults to False
+
+        Waring:
+            If the "_minified" parameter is set, both JavaScript, CSS will be also be minified alon with
+            the HTML.
 
         Returns:
             str: a rendered version of the string
@@ -309,6 +335,10 @@ class Expross(object):
             name (str): template file to be parsed
             context (any, optional): additional context to give to the template. Defaults to None.
             _minified: (bool, optional): make html, css, js a minified version of themselve. Defaults to False
+
+        Waring:
+            If the "_minified" parameter is set, both JavaScript, CSS will be also be minified alon with
+            the HTML.
 
         Returns:
             str: a rendered version of the template
@@ -340,7 +370,7 @@ class Expross(object):
 
         Args: res (Response): request to be set
         """
-        self.req = res
+        self.res = res
 
     def __repr__(self):
         # default_port and default_host_name are being overieded
