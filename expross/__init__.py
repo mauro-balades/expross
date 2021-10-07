@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
-version = "1.0.7"
+version = "1.0.8"
 
 from expross.main import Expross
 

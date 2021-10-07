@@ -199,7 +199,8 @@ class Expross(object):
         """
 
         if self.default_enpoint:
-            _route = self.default_enpoint = _route
+            if _route == "/": _route = self.default_enpoint
+            _route = self.default_enpoint + _route
 
         def decorator(func):
 
@@ -223,7 +224,8 @@ class Expross(object):
         """
 
         if self.default_enpoint:
-            _route = self.default_enpoint = _route
+            if _route == "/": _route = self.default_enpoint
+            _route = self.default_enpoint + _route
 
         def decorator(func):
             self._check_for_repeated_route(_route, "POST", func)
