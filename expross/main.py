@@ -94,6 +94,9 @@ class Expross(object):
         file_loader: FileSystemLoader = FileSystemLoader(_templates)
         self.jinja_env: Environment = Environment(loader=file_loader)
 
+        # Add a default enpoint
+        self.default_enpoint: str = kwargs.get("endpoint", None)
+
         # Default config
         self.jinja_env.trim_blocks = True
         self.jinja_env.lstrip_blocks = True
@@ -195,7 +198,11 @@ class Expross(object):
             route (str): route to be added to the router's list
         """
 
+        if self.default_enpoint:
+            _route = self.default_enpoint = _route
+
         def decorator(func):
+
             self._check_for_repeated_route(_route, "GET", func)
             _repeated = self._check_for_mentioned_route(_route)
 
@@ -214,6 +221,9 @@ class Expross(object):
         Args:
             route (str): route to be added to the router's list
         """
+
+        if self.default_enpoint:
+            _route = self.default_enpoint = _route
 
         def decorator(func):
             self._check_for_repeated_route(_route, "POST", func)
