@@ -198,8 +198,9 @@ class Expross(object):
             route (str): route to be added to the router's list
         """
 
-        if self.default_enpoint:
-            if _route == "/": _route = self.default_enpoint
+        if _route == "/" and self.default_enpoint:
+            _route = self.default_enpoint
+        elif self.default_enpoint:
             _route = self.default_enpoint + _route
 
         def decorator(func):
@@ -223,8 +224,9 @@ class Expross(object):
             route (str): route to be added to the router's list
         """
 
-        if self.default_enpoint:
-            if _route == "/": _route = self.default_enpoint
+        if _route == "/" and self.default_enpoint:
+            _route = self.default_enpoint
+        elif self.default_enpoint:
             _route = self.default_enpoint + _route
 
         def decorator(func):
