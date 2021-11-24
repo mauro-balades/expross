@@ -13,7 +13,7 @@
     <a href="https://mauro-balades.gitbook.io/expross/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://mauro-balades.gitbook.io/expross/geting-started/basic-ussage">Example app
+    <a href="https://mauro-balades.gitbook.io/expross/geting-started/basic-ussage">Example app</a>
     ·
     <a href="https://github.com/mauro-balades/expross/issues">Report Bug</a>
     ·
