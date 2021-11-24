@@ -28,7 +28,7 @@ Theres a lot of people that work with express.js and they whant to change to pyt
 Here's why:
 * Function names are very similar to express.js
 * It is faster than other web frameworks
-* Secure and contrinuesly maintained :smile:
+* Secure and continuesly maintained :smile:
 
 Of course, this is not a perfect project but. We have shown people with no idea of web development for python how to use this framework. They said it is the most easy framework to learn because it's similarities with express.js
 
