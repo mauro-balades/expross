@@ -1,23 +1,64 @@
-# Expross
+<div id="top"></div>
 
-Expross is a lightweight web server to introduce JavaScript developers familiar with [Express](http://expressjs.com) to Python.
 
-### Instalation
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
 
-To install `Expross`, you will need to have the following requirements:
+  <h1 align="center">Expross</h3>
 
-* pip3
-* [python3](https://python.org)
+  <p align="center">
+    Expross is a lightweight web server to introduce JavaScript developers familiar with Express to Python.
+    <br />
+    <a href="https://mauro-balades.gitbook.io/expross/"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://mauro-balades.gitbook.io/expross/geting-started/basic-ussage">Example app
+    ·
+    <a href="https://github.com/mauro-balades/expross/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/mauro-balades/expross/pulls">Request Feature</a>
+  </p>
+</div>
 
-To install `Expross` you can do it by entering the follow commands in your command prompt.
+## About The Project
 
-```
-$ pip3 install expross
-```
+Theres a lot of people that work with express.js and they whant to change to python for many diferent reasons. That is why Expross it created. To give web development from express.js users a nice and clean introduction to web development in python.
 
-### Basic usage
+Here's why:
+* Function names are very similar to express.js
+* It is faster than other web frameworks
+* Secure and contrinuesly maintained :smile:
 
-Here's an example of how to use Expross:
+Of course, this is not a perfect project but. We have shown people with no idea of web development for python how to use this framework. They said it is the most easy framework to learn because it's similarities with express.js
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## Getting Started
+
+Here, we will show you how easy is to run a web server in expros
+To get a local copy up and running follow these simple example steps.
+
+### Prerequisites
+
+You will need to install the package (obviously) with `pip3` and run the application with `python3` (wich normally comes with pip3 integrated).
+
+### Installation
+
+_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+
+1. Install Expross
+  ```sh
+  pip3 install Expross
+  ```
+  
+ ... is that simple
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## Usage
+
+This is an example of a hello world with Expross
 
 ```python
 # Import expross with capital leter
@@ -32,32 +73,41 @@ def main():
 app.listen() # Can include a host name and port
 ```
 
-### Documentation
+* then, run `python3 [file].py`
 
-* You can follow the documentation [here](https://mauro-balades.gitbook.io/expross/)
+That is all....
 
-### License
+_For more examples, please refer to the [Documentation]()_
 
-```
-The MIT License (MIT)
+<p align="right">(<a href="#top">back to top</a>)</p>
 
-Copyright (c) 2021 expross
+## Contributing
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-```
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+
+## License
+
+Distributed under the MIT License. See `LICENSE.md` for more information.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## Contact
+
+Mauro Baladés - [mauro.balades@tutanota.com](mailto:mauro.balades@tanota.com)
+
+Project Link: [https://github.com/mauro-balades/expross/](https://github.com/mauro-balades/expross/)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
