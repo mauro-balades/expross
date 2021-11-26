@@ -26,7 +26,7 @@ from __future__ import absolute_import
 from typing import Callable
 
 from expross.routes import Route
-from expross.errors import ErrorHandlerExists, ErrorCodeExists, RouteAlreadyExists
+from expross.errors import ErrorCodeExists, RouteAlreadyExists
 from expross.error import ErrorHandler
 
 from wsgiref.simple_server import make_server
@@ -178,13 +178,13 @@ class Expross(object):
             error (int | ErrorLike): error to be handled
         """
 
-      for err in self.errors:
-          elif err.error == error:
-              raise ErrorCodeExists(f"Code for {error} is already being handled")
+        for err in self.errors:
+            if err.error == error:
+                raise ErrorCodeExists(f"Code for {error} is already being handled")
 
-      handler = ErrorHandler(error, func, self)
-      self.app.add_error_handler(error, handler.handle)
-      self.errors.append(handler)
+        handler = ErrorHandler(error, func, self)
+        self.app.add_error_handler(error, handler.handle)
+        self.errors.append(handler)
 
     def get(self, _route: str, func: Callable):
         """add a route to the server with the GET method

@@ -22,37 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
-from expross import Expross
-from expross import HTTPNotFound
+class Context:
 
-app = Expross()
+    """A class used to get context from a url template
+    """
 
-app.serve_static()
+    def __init__(self, initial_data):
+        for key in initial_data:
+            setattr(self, key, initial_data[key])
 
-
-# @app.error(HTTPNotFound)
-# def err():
-#     return "<h1>ups! 404</h1>"
-
-
-# @app.get("/")
-# def main():
-
-#     if app.req.params.get("pdf", None) == "active":
-#         return app.redirect("/public/test.pdf")
-
-#     return "<h1>Hello, world!</h1>"
-
-
-# @app.get("/test/{number:int}")
-# def test(number: int):
-#     return f"this is number is a {number}"
-
-
-def index(req, res):
-    return "hello"
-
-app.get("/{number:int}", index)
-app.error(HTTPNotFound, index)
-
-app.listen()
+    def has(self, property: str):
+        return hasattr(self, property)

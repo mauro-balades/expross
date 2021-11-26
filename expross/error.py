@@ -62,7 +62,7 @@ class ErrorHandler(CustomBaseException):
             Errors can only be registered one, an exception would
             be raised in another function
         """
-        data = self.func()
+        data = self.func(req, resp)
         res, type = get_response(data)
 
         self.app.req = req

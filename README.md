@@ -66,10 +66,10 @@ from expross import Expross
 
 app = Expross()
 
-@app.get("/")
 def main():
   return "<h1>Hello, world!</h1>"
 
+app.get("/", main)
 app.listen() # Can include a host name and port
 ```
 

@@ -24,6 +24,7 @@ THE SOFTWARE.
 
 from expross.errors import MethodNotAvailable
 from expross.utils import get_response
+from expross.context import Context
 
 from falcon import Request, Response
 
@@ -103,7 +104,7 @@ class Resource:
         """
         self._check_for_method("GET")
 
-        self.app.context = **context
+        self.app.context = Context(context)
         res, code, content_type = self._get_packed_result(req, resp)
 
         # Get response's data in bytes
@@ -113,7 +114,7 @@ class Resource:
         resp.data = data
         resp.content_type = type if content_type is None else content_type
 
-    def on_post(self, req: Request, resp: Response):
+    def on_post(self, req: Request, resp: Response, **context):
         """Triggered when a POST request has been requested
 
         Args:
@@ -122,7 +123,7 @@ class Resource:
         """
         self._check_for_method("POST")
 
-        self.app.context = **context
+        self.app.context = Context(context)
         res, code, content_type = self._get_packed_result(req, resp)
 
         # Get response's data in bytes

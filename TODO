@@ -1,0 +1,11 @@
+
+TESTS:
+    - Update tests to its latest
+
+DOCS:
+    - Update docs with new functionalities
+
+EXPROSS:
+    - Add more HTTP request modes
+    - Optional logging
+    - Add a .use function
