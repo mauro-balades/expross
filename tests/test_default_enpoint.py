@@ -26,7 +26,7 @@ from expross import Expross
 
 app = Expross(endpoint="/endpoint")
 
-def test():
+def test(req, res):
     return "/endpoint"
 
 app.get("/", test)

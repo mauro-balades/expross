@@ -26,10 +26,10 @@ from expross import Expross
 
 app = Expross()
 
-def template():
+def template(req, res):
     return app.render_template("test.html", test_string="This is my test string")
 
-def min():
+def min(req, res):
     return app.render_template(
         "test.html", test_string="This is my test string", _minified=True
     )

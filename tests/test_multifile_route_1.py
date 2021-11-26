@@ -31,7 +31,7 @@ app = Expross()
 def err():
     return "<h1>ups! 404</h1>"
 
-def main():
+def main(req, res):
     return "<h1>Hello, world!</h1>"
 
 app.get("/", main)

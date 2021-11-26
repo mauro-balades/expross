@@ -5,4 +5,7 @@ DOCS:
 EXPROSS:
     - Add more HTTP request modes
     - Optional logging
-    - Add a .use function
+    - Add engines option
+        - https://expressjs.com/en/4x/api.html#app.engine
+    - Add app.route
+        - https://expressjs.com/en/4x/api.html#app.route

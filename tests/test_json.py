@@ -26,7 +26,7 @@ from expross import Expross
 
 app = Expross()
 
-def json():
+def json(req, res):
     return {"test": "test"}
 
 app.get("/json", json)

@@ -26,10 +26,10 @@ from expross import Expross
 
 app = Expross()
 
-def main():
+def main(req, res):
     return app.render_template("post.html")
 
-def test():
+def test(req, res):
     return app.req.post_data
 
 app.get("/", main)

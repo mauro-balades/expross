@@ -66,7 +66,7 @@ from expross import Expross
 
 app = Expross()
 
-def main():
+def main(req, res):
   return "<h1>Hello, world!</h1>"
 
 def listening():

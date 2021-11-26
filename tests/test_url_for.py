@@ -27,10 +27,10 @@ from expross import Expross
 app = Expross()
 
 
-def main():
+def main(req, res):
     return app.url_for("other_route")  # /test
 
-def other_route():
+def other_route(req, res):
     return "Hi!"
 
 app.get("/", main)
