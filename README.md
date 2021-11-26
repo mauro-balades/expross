@@ -69,8 +69,11 @@ app = Expross()
 def main():
   return "<h1>Hello, world!</h1>"
 
+def listening():
+  print("server live!")
+
 app.get("/", main)
-app.listen() # Can include a host name and port
+app.listen(cb=listening) # Can include a host name and port
 ```
 
 * then, run `python3 [file].py`
