@@ -23,6 +23,7 @@ THE SOFTWARE.
 """
 
 from __future__ import absolute_import
+from typing import Callable
 
 from expross.routes import Route
 from expross.errors import ErrorHandlerExists, ErrorCodeExists, RouteAlreadyExists
@@ -191,7 +192,7 @@ class Expross(object):
 
         return decorator
 
-    def get(self, _route: str = None):
+    def get(self, _route: str, func: Callable):
         """add a route to the server with the GET method
 
         Args:
@@ -203,21 +204,17 @@ class Expross(object):
         elif self.default_enpoint:
             _route = self.default_enpoint + _route
 
-        def decorator(func):
+        self._check_for_repeated_route(_route, "GET", func)
+        _repeated = self._check_for_mentioned_route(_route)
 
-            self._check_for_repeated_route(_route, "GET", func)
-            _repeated = self._check_for_mentioned_route(_route)
+        if _repeated:
+            _repeated.methods.append("GET")
+        else:
+            route = Route(route=_route, methods=["GET"], func=func, app=self)
+            self.app.add_route(_route, route)
+            self.routes.append(route)
 
-            if _repeated:
-                _repeated.methods.append("GET")
-            else:
-                route = Route(route=_route, methods=["GET"], func=func, app=self)
-                self.app.add_route(_route, route)
-                self.routes.append(route)
-
-        return decorator
-
-    def post(self, _route: str = None):
+    def post(self, _route: str, func: Callable):
         """add a route to the server with the POST method
 
         Args:
@@ -229,18 +226,15 @@ class Expross(object):
         elif self.default_enpoint:
             _route = self.default_enpoint + _route
 
-        def decorator(func):
-            self._check_for_repeated_route(_route, "POST", func)
-            _repeated = self._check_for_mentioned_route(_route)
+        self._check_for_repeated_route(_route, "POST", func)
+        _repeated = self._check_for_mentioned_route(_route)
 
-            if _repeated:
-                _repeated.methods.append("POST")
-            else:
-                route = Route(route=_route, methods=["POST"], func=func, app=self)
-                self.app.add_route(_route, route)
-                self.routes.append(route)
-
-        return decorator
+        if _repeated:
+            _repeated.methods.append("POST")
+        else:
+            route = Route(route=_route, methods=["POST"], func=func, app=self)
+            self.app.add_route(_route, route)
+            self.routes.append(route)
 
     def _check_for_mentioned_route(self, name):
         for route in self.routes:
@@ -256,6 +250,7 @@ class Expross(object):
                 and method in route.methods
                 or route.function.__name__ == function.__name__
             ):
+                # TODO: better error for repeated function
                 raise RouteAlreadyExists(
                     f"Router with name {name} ({method}) already exists"
                 )
