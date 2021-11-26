@@ -85,8 +85,7 @@ class Expross(object):
         self.errors: list = []
         self.middlewares: list = kwargs.get("middlewares", [])
 
-        self.req: Request = None
-        self.res: Response = None
+        self.context = None
 
         self.app: falcon.App = falcon.App(middleware=self.middlewares)
 
@@ -165,32 +164,27 @@ class Expross(object):
         self.app.add_middleware(middleware)
         self.middlewares.append(middleware)
 
-    def error(self, error):
+    def error(self, error, func: Callable):
         """add an error handler to your app
 
         Usage:
 
-            @app.error(HTTPNotFound):
-            def error():
+            def my_error():
                 return "Ups! 404"
+
+            app.error(HTTPNotFound, my_error)
 
         Args:
             error (int | ErrorLike): error to be handled
         """
 
-        def decorator(func):
+      for err in self.errors:
+          elif err.error == error:
+              raise ErrorCodeExists(f"Code for {error} is already being handled")
 
-            for err in self.errors:
-                if err.func.__name__ == func.__name__:
-                    raise ErrorHandlerExists("Same error function exists")
-                elif err.error == error:
-                    raise ErrorCodeExists(f"Code for {error} is already being handled")
-
-            handler = ErrorHandler(error, func, self)
-            self.app.add_error_handler(error, handler.handle)
-            self.errors.append(handler)
-
-        return decorator
+      handler = ErrorHandler(error, func, self)
+      self.app.add_error_handler(error, handler.handle)
+      self.errors.append(handler)
 
     def get(self, _route: str, func: Callable):
         """add a route to the server with the GET method

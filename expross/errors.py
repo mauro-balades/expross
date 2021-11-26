@@ -94,10 +94,5 @@ class MethodNotAvailable(Exception):
 class ErrorCodeExists(Exception):
     """When a error code (like 404) is repeated"""
 
-
-class ErrorHandlerExists(Exception):
-    """This is triggered when a function with same name has another error code"""
-
-
 class CustomBaseException(Exception):
     """Error used for server errors like 500 or 404"""

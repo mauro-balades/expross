@@ -54,7 +54,7 @@ class Resource:
         if not method in self.methods:
             raise MethodNotAvailable(f"Method {method} is not avaiable for this route")
 
-    def _get_packed_result(self, **context):
+    def _get_packed_result(self, req, res):
         """Get a complete version of the function's response
 
         Args:
@@ -72,7 +72,7 @@ class Resource:
             str: Content-type of the response
         """
         # TODO: add arguments if the have a templated url
-        data = self.function(**context)
+        data = self.function(req, res)
 
         # TODO: clean a bit this code.
         try:
@@ -103,9 +103,8 @@ class Resource:
         """
         self._check_for_method("GET")
 
-        self.app.req: Request = req
-        self.app.res: Response = resp
-        res, code, content_type = self._get_packed_result(**context)
+        self.app.context = **context
+        res, code, content_type = self._get_packed_result(req, resp)
 
         # Get response's data in bytes
         data, type = get_response(res)
@@ -123,9 +122,8 @@ class Resource:
         """
         self._check_for_method("POST")
 
-        self.app.req: Request = req
-        self.app.res: Response = resp
-        res, code, content_type = self._get_packed_result(**context)
+        self.app.context = **context
+        res, code, content_type = self._get_packed_result(req, resp)
 
         # Get response's data in bytes
         data, type = get_response(res)
