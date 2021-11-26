@@ -94,5 +94,6 @@ class MethodNotAvailable(Exception):
 class ErrorCodeExists(Exception):
     """When a error code (like 404) is repeated"""
 
+
 class CustomBaseException(Exception):
     """Error used for server errors like 500 or 404"""

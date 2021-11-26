@@ -26,10 +26,8 @@ from expross import Expross
 
 app = Expross()
 
-
-@app.get("/json")
 def json():
     return {"test": "test"}
 
-
+app.get("/json", json)
 app.listen()

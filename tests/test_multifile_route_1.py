@@ -27,20 +27,15 @@ from expross import HTTPNotFound
 from tests import test_routes
 
 app = Expross()
-app.use(test_routes)
 
-app.serve_static()
-
-
-@app.error(HTTPNotFound)
 def err():
     return "<h1>ups! 404</h1>"
 
-
-@app.get("/")
 def main():
-
     return "<h1>Hello, world!</h1>"
 
+app.get("/", main)
+app.error(HTTPNotFound, err)
 
+app.use(test_routes)
 app.listen()

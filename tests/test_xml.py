@@ -23,12 +23,10 @@ THE SOFTWARE.
 """
 
 from expross import Expross
-from expross import json
+from expross import xml
 
 app = Expross()
 
-
-@app.get("/")
 def test_xml():
 
     _xml = """<?xml version="1.0" encoding="UTF-8"?>
@@ -42,5 +40,5 @@ def test_xml():
 
     return xml(_xml)
 
-
+app.get("/", test_xml)
 app.listen()

@@ -192,21 +192,7 @@ class Expross(object):
         Args:
             route (str): route to be added to the router's list
         """
-
-        if _route == "/" and self.default_enpoint:
-            _route = self.default_enpoint
-        elif self.default_enpoint:
-            _route = self.default_enpoint + _route
-
-        self._check_for_repeated_route(_route, "GET", func)
-        _repeated = self._check_for_mentioned_route(_route)
-
-        if _repeated:
-            _repeated.methods.append("GET")
-        else:
-            route = Route(route=_route, methods=["GET"], func=func, app=self)
-            self.app.add_route(_route, route)
-            self.routes.append(route)
+        self._add_route(_route, func, "GET")
 
     def post(self, _route: str, func: Callable):
         """add a route to the server with the POST method
@@ -214,19 +200,21 @@ class Expross(object):
         Args:
             route (str): route to be added to the router's list
         """
+        self._add_route(_route, func, "POST")
 
+    def _add_route(self, _route: str, func: Callable, method: str):
         if _route == "/" and self.default_enpoint:
             _route = self.default_enpoint
         elif self.default_enpoint:
             _route = self.default_enpoint + _route
 
-        self._check_for_repeated_route(_route, "POST", func)
+        self._check_for_repeated_route(_route, method, func)
         _repeated = self._check_for_mentioned_route(_route)
 
         if _repeated:
-            _repeated.methods.append("POST")
+            _repeated.methods.append(method)
         else:
-            route = Route(route=_route, methods=["POST"], func=func, app=self)
+            route = Route(route=_route, methods=[method], func=func, app=self)
             self.app.add_route(_route, route)
             self.routes.append(route)
 
@@ -242,14 +230,12 @@ class Expross(object):
             if (
                 name == str(route)
                 and method in route.methods
-                or route.function.__name__ == function.__name__
             ):
-                # TODO: better error for repeated function
                 raise RouteAlreadyExists(
                     f"Router with name {name} ({method}) already exists"
                 )
 
-    def listen(self, hostName: str = default_host_name, serverPort: int = default_port):
+    def listen(self, serverPort: int = default_port, cb: Callable = None, hostName: str = default_host_name):
         """Start a web server
 
         Args:
@@ -264,7 +250,9 @@ class Expross(object):
         self.default_host_name = hostName
 
         with make_server(hostName, serverPort, self.app) as httpd:
-            print("Server started http://%s:%s" % (hostName, serverPort))
+            # print("Server started http://%s:%s" % (hostName, serverPort))
+            if cb and cb is Callable:
+                cb()
 
             # Serve until process is killed
             httpd.serve_forever()

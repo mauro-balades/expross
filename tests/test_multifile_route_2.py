@@ -26,7 +26,7 @@ from expross import Expross
 
 test_routes = Expross()
 
-
-@test_routes.get("/test")
 def test():
     return f"this is a multifile test!"
+
+test_routes.get("/test", test)

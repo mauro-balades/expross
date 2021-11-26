@@ -22,10 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
+
 class Context:
 
-    """A class used to get context from a url template
-    """
+    """A class used to get context from a url template"""
 
     def __init__(self, initial_data):
         for key in initial_data:

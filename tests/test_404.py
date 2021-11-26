@@ -27,9 +27,8 @@ from expross import Expross
 app = Expross()
 
 # Return 404, this is not for display a 404 page
-@app.get("/")
-def test():
+def test(req, res):
     return "this should return 404", 404
 
-
+app.error("/", test)
 app.listen()

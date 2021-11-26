@@ -26,8 +26,8 @@ from expross import Expross
 
 app = Expross(endpoint="/endpoint")
 
-@app.get("/")
 def test():
     return "/endpoint"
 
+app.get("/", test)
 print(app.routes)

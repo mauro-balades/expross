@@ -28,14 +28,11 @@ from expross.middleware import CORS
 app = Expross()
 
 cors = CORS(allow_origins_list=["*"])
-app.use(cors.middleware)
 
-app.serve_static()
-
-
-@app.get("/")
 def main():
     return {"test": "hey"}
 
+app.get("/", main)
 
+app.use(cors.middleware)
 app.listen()

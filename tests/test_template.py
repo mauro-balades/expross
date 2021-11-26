@@ -26,17 +26,14 @@ from expross import Expross
 
 app = Expross()
 
-
-@app.get("/")
 def template():
     return app.render_template("test.html", test_string="This is my test string")
 
-
-@app.get("/min")
 def min():
     return app.render_template(
         "test.html", test_string="This is my test string", _minified=True
     )
 
-
+app.get("/", template)
+app.get("/min", min)
 app.listen()
