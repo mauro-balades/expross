@@ -251,7 +251,7 @@ class Expross(object):
 
         with make_server(hostName, serverPort, self.app) as httpd:
             # print("Server started http://%s:%s" % (hostName, serverPort))
-            if cb and cb is Callable:
+            if cb:
                 cb()
 
             # Serve until process is killed

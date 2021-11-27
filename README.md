@@ -24,6 +24,8 @@
 
 ## About The Project
 
+**NOTE**: for obvious reasons, it will not be exactly the same (maybe because of language resctrictions or because it is not implemented).
+
 Theres a lot of people that work with express.js and they whant to change to python for many diferent reasons. That is why Expross it created. To give web development from express.js users a nice and clean introduction to web development in python.
 
 Here's why:
