@@ -202,44 +202,12 @@ class Expross(object):
         """
         self._add_route(_route, func, "POST")
 
-    def _add_route(self, _route: str, func: Callable, method: str):
-        if _route == "/" and self.default_enpoint:
-            _route = self.default_enpoint
-        elif self.default_enpoint:
-            _route = self.default_enpoint + _route
-
-        self._check_for_repeated_route(_route, method, func)
-        _repeated = self._check_for_mentioned_route(_route)
-
-        if _repeated:
-            _repeated.methods.append(method)
-        else:
-            route = Route(route=_route, methods=[method], func=func, app=self)
-            self.app.add_route(_route, route)
-            self.routes.append(route)
-
-    def _check_for_mentioned_route(self, name):
-        for route in self.routes:
-            if str(route) == name:
-                return route
-
-        return None
-
-    def _check_for_repeated_route(self, name, method, function):
-        for route in self.routes:
-            if (
-                name == str(route)
-                and method in route.methods
-            ):
-                raise RouteAlreadyExists(
-                    f"Router with name {name} ({method}) already exists"
-                )
-
     def listen(self, serverPort: int = default_port, cb: Callable = None, hostName: str = default_host_name):
         """Start a web server
 
         Args:
             hostName (str, optional): host name for the server. Defaults to localhost.
+            cb (str, optional): optional callback function called when app started runing.
             serverPort (int, optional): port for the server to run in. Defaults to 8000.
 
         Note:
@@ -286,7 +254,6 @@ class Expross(object):
             Please do not do any error handling for this. This is an intentionally
             error to redirect user, if it is being handled, redirects won't happend.
         """
-        # TODO: create more options based on status codes
         raise HTTPFound(location)
 
     def render(self, data: str, **context: any):
@@ -348,6 +315,39 @@ class Expross(object):
             )
 
         return rendered
+
+    def _add_route(self, _route: str, func: Callable, method: str):
+        if _route == "/" and self.default_enpoint:
+            _route = self.default_enpoint
+        elif self.default_enpoint:
+            _route = self.default_enpoint + _route
+
+        self._check_for_repeated_route(_route, method, func)
+        _repeated = self._check_for_mentioned_route(_route)
+
+        if _repeated:
+            _repeated.methods.append(method)
+        else:
+            route = Route(route=_route, methods=[method], func=func, app=self)
+            self.app.add_route(_route, route)
+            self.routes.append(route)
+
+    def _check_for_mentioned_route(self, name):
+        for route in self.routes:
+            if str(route) == name:
+                return route
+
+        return None
+
+    def _check_for_repeated_route(self, name, method, function):
+        for route in self.routes:
+            if (
+                name == str(route)
+                and method in route.methods
+            ):
+                raise RouteAlreadyExists(
+                    f"Router with name {name} ({method}) already exists"
+                )
 
     def _set_request(self, req: Request):
         """Set a request to the app
