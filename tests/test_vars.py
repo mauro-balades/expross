@@ -23,13 +23,21 @@ THE SOFTWARE.
 """
 
 from expross import Expross
+from expross.errors import VariableIsConstant
 
-app = Expross(endpoint="/endpoint")
+app = Expross()
 
+# Return 404, this is not for display a 404 page
+app.set_var("hello", "world")
+print(app.get_var("hello"))
+app.set_var("hello", "Hi!")
+print(app.get_var("hello"))
+app.set_var("hello", "Constant var", True)  # Var is now a constant
+print(app.get_var("hello"))
 
-def test(req, res):
-    return "/endpoint"
+try:
+    app.set_var("hello", "Can't change!")
+except VariableIsConstant:
+    print("Constant change can't be done!!!")
 
-
-app.get("/", test)
-print(app.routes)
+print(app.get_var("hello"))  # value: Constant Var (did not change)

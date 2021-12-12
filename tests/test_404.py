@@ -30,5 +30,6 @@ app = Expross()
 def test(req, res):
     return "this should return 404", 404
 
+
 app.error("/", test)
 app.listen()

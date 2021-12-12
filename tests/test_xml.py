@@ -27,6 +27,7 @@ from expross import xml
 
 app = Expross()
 
+
 def test_xml(req, res):
 
     _xml = """<?xml version="1.0" encoding="UTF-8"?>
@@ -39,6 +40,7 @@ def test_xml(req, res):
     """
 
     return xml(_xml)
+
 
 app.get("/", test_xml)
 app.listen()

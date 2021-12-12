@@ -26,8 +26,10 @@ from expross import Expross
 
 app = Expross()
 
+
 def args(req, res):
     return req.args
+
 
 app.get("/", args)
 app.listen()

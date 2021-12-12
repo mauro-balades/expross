@@ -26,8 +26,10 @@ from expross import Expross
 
 app = Expross()
 
+
 def template(req, res):
     return app.redirect("https://google.com")
+
 
 app.get("/", template)
 app.listen()

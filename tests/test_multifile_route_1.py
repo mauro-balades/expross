@@ -28,11 +28,14 @@ from tests import test_routes
 
 app = Expross()
 
+
 def err():
     return "<h1>ups! 404</h1>"
 
+
 def main(req, res):
     return "<h1>Hello, world!</h1>"
+
 
 app.get("/", main)
 app.error(HTTPNotFound, err)

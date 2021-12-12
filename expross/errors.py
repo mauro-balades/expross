@@ -97,3 +97,7 @@ class ErrorCodeExists(Exception):
 
 class CustomBaseException(Exception):
     """Error used for server errors like 500 or 404"""
+
+
+class VariableIsConstant(Exception):
+    """Thrown when a variable is a constant and user tryes to change it."""

@@ -26,11 +26,14 @@ from expross import Expross
 
 app = Expross()
 
+
 def main(req, res):
     return app.render_template("post.html")
 
+
 def test(req, res):
     return app.req.post_data
+
 
 app.get("/", main)
 app.post("/test", test)

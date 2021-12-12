@@ -30,8 +30,10 @@ app = Expross()
 def main(req, res):
     return app.url_for("other_route")  # /test
 
+
 def other_route(req, res):
     return "Hi!"
+
 
 app.get("/", main)
 app.get("/test", other_route)

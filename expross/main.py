@@ -26,7 +26,7 @@ from __future__ import absolute_import
 from typing import Callable
 
 from expross.routes import Route
-from expross.errors import ErrorCodeExists, RouteAlreadyExists
+from expross.errors import ErrorCodeExists, RouteAlreadyExists, VariableIsConstant
 from expross.error import ErrorHandler
 
 from wsgiref.simple_server import make_server
@@ -102,6 +102,8 @@ class Expross(object):
         self.jinja_env.lstrip_blocks = True
         self.jinja_env.rstrip_blocks = True
 
+        self.vars = []
+
         # Add all middlewares
         for i in self.middlewares:
             self.use(i)
@@ -159,10 +161,72 @@ class Expross(object):
                 self.app.add_error_handler(e.error, handler.handle)
                 self.errors.append(handler)
 
+            for v in middleware.vars:
+                self.set_var(v["name"], v["value"], v["const"])
+
             return
 
         self.app.add_middleware(middleware)
         self.middlewares.append(middleware)
+
+    def set_var(self, name: str, val: str, constant: bool = False):
+        """Set a variable to the app's contenxt
+
+        Args:
+            name (str): Name of the variable
+            val (str): Value for the variable
+            constant (bool, optional): Declare if the value can be changed or not. Defaults to False.
+
+        Raises:
+            VariableIsConstant: If trying to change a variable's value but variable is constant
+
+        Returns:
+            dict: Variable object
+        """
+
+        exists = False
+        for var in self.vars:
+            if var["name"] == name:
+                exists = True
+
+        if not exists:
+            self.vars.append(
+                {
+                    "name": str(name),
+                    "value": str(val),
+                    "const": constant,
+                }
+            )
+
+            return True
+
+        for i, var in enumerate(self.vars):
+            if var["name"] == name:
+
+                if var["const"]:
+                    raise VariableIsConstant(f"Variable {name} is a constant")
+
+                self.vars[i]["value"] = str(val)
+                self.vars[i]["const"] = constant
+
+        return True
+
+    def get_var(self, name: str):
+        """Get an object from an app's variable
+
+        Args:
+            name (str): Name of the variable
+
+        Returns:
+            dict: Object of the variable
+        """
+        ret = None
+
+        for var in self.vars:
+            if var["name"] == name:
+                ret = var
+
+        return ret
 
     def error(self, error, func: Callable):
         """add an error handler to your app
@@ -186,11 +250,22 @@ class Expross(object):
         self.app.add_error_handler(error, handler.handle)
         self.errors.append(handler)
 
+    def all(self, _route: str, func: Callable):
+        """add a route to the server with the all methods available
+
+        Args:
+            route (str): route to be added to the router's list
+            func (Callable): Function to be called when endpoint is being called
+        """
+        for method in ["GET", "POST"]:
+            self._add_route(_route, func, method)
+
     def get(self, _route: str, func: Callable):
         """add a route to the server with the GET method
 
         Args:
             route (str): route to be added to the router's list
+            func (Callable): Function to be called when endpoint is being called
         """
         self._add_route(_route, func, "GET")
 
@@ -199,10 +274,16 @@ class Expross(object):
 
         Args:
             route (str): route to be added to the router's list
+            func (Callable): Function to be called when endpoint is being called
         """
         self._add_route(_route, func, "POST")
 
-    def listen(self, serverPort: int = default_port, cb: Callable = None, hostName: str = default_host_name):
+    def listen(
+        self,
+        serverPort: int = default_port,
+        cb: Callable = None,
+        hostName: str = default_host_name,
+    ):
         """Start a web server
 
         Args:
@@ -341,10 +422,7 @@ class Expross(object):
 
     def _check_for_repeated_route(self, name, method, function):
         for route in self.routes:
-            if (
-                name == str(route)
-                and method in route.methods
-            ):
+            if name == str(route) and method in route.methods:
                 raise RouteAlreadyExists(
                     f"Router with name {name} ({method}) already exists"
                 )

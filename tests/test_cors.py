@@ -29,8 +29,10 @@ app = Expross()
 
 cors = CORS(allow_origins_list=["*"])
 
+
 def main(req, res):
     return {"test": "hey"}
+
 
 app.get("/", main)
 
