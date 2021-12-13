@@ -1,5 +1,5 @@
 ---
-description: 'Here, we show you how to make a redirect in Expross'
+description: Here, we show you how to make a redirect in Expross
 ---
 
 # 🔗 Redirect
@@ -10,20 +10,21 @@ To make a redirect, you can just call the redirect function:
 
 ```python
 
-@app.get("/")
 def main():
     app.redirect("https://google.com")
+    
+app.get("/", main)
 
 ```
 
 {% hint style="danger" %}
- Do not **ever** make an error handler for **HTTPFound**. This error is being raised so that we can feagure out when you whant a redirect.
+&#x20;Do not **ever** make an error handler for **HTTPFound**. This error is being raised so that we can feagure out when you whant a redirect.
 
 An example of a **bad redirect usage**:
 
-{% code title="bad\_example.py" %}
+{% code title="bad_example.py" %}
 ```python
-@app.get("/")
+
 def bad():
     try:
         app.redirect("https://google.com") 
@@ -47,7 +48,6 @@ def redirect(self, location: str):
 
         Note:
             Please do not do any error handling for this. This is an intentionally
-            error to redirect user.
+            error to redirect the user.
     """
 ```
-

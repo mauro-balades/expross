@@ -15,18 +15,19 @@ from expross import HTTPNotFound
 
 # ...
 
-@app.error(HTTPNotFound)
 def error():
     return "ups! 404"
+    
+app.error(HTTPNotFound)
     
 ```
 {% endcode %}
 
 {% hint style="info" %}
- Errors must be a reference to the error class, you can have multiple error handling
+&#x20;Errors must be a reference to the error class, you can have multiple error handling
 {% endhint %}
 
-Here is a complete list off all the errors:
+Here is a complete list of all the errors:
 
 ```python
 _errors = (
@@ -82,6 +83,5 @@ _errors = (
 ```
 
 {% hint style="danger" %}
-You cant have 2 error handlers with same error, an exception with be rised
+You cant have 2 error handlers with the same error, an exception with being raised
 {% endhint %}
-

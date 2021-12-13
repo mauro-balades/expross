@@ -4,16 +4,16 @@
 
 ```python
 
-@app.get("/")
 def main():
 
     print(app.req)
     print(app.res)
     return "hey!", 200
+    
+app.get("/", main)
 
 ```
 
 {% hint style="info" %}
- This classes can only be accesed when a route is being called
+&#x20;These classes can only be accessed when a route is being called
 {% endhint %}
-

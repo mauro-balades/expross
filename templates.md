@@ -19,7 +19,7 @@ app.set_templates("your folder")
 ```
 
 {% hint style="info" %}
- By default, this folder will be called `templates`
+&#x20;By default, this folder will be called `templates`
 {% endhint %}
 
 ## Render a template
@@ -28,9 +28,10 @@ You can render a jinja template, by giving it context
 
 ```python
 
-app.get("/")
 def main():
     return render_template('users.html', users={...})
+    
+app.get("/", main)
 
 ```
 
@@ -52,15 +53,16 @@ def main():
 {% endcode %}
 
 {% hint style="info" %}
- You can add a parameter to make this a minified version of it
+&#x20;You can add a parameter to make this a minified version of it
 
 **NOTE:** It also minifies CSS, js inside this file and tags like `pre` or `code` won't be minified. This would be an example response:
 
 ```python
 
-app.get("/")
 def main():
     return render_template('users.html', users={...}, _minified=True)
+    
+app.get("/", main)
 
 ```
 
@@ -77,8 +79,8 @@ You can render a jinja string template, by giving it context and it also support
 
 ```python
 
-app.get("/")
 def main():
     return render("Hello {{ user }}", user="programmer")
+    
+app.get("/", main)
 ```
-

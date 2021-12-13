@@ -11,13 +11,14 @@ description: 'You can do diferent responses like: xml, html, json, ...'
 Expross auto-detects whether the response is gonna be html or json
 
 ```python
-@app.get("/")
 def main():
     return "<h1>Hello, world!</h1>"
     
-@app.get("/json")
 def json():
     return {"hello": "world"}
+
+app.get("/json", json)
+app.get("/", main)
 ```
 
 ### Class return
@@ -57,9 +58,9 @@ To make a class return, you can just initiate it with some content, for example:
 
 ```python
 
-@app.get("/")
 def main():
-    return xml(...)
+    return xml("...")
+    
+app.get("/", main)
     
 ```
-

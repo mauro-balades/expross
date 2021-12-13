@@ -18,7 +18,7 @@ $ source venv/bin/activate
 ```
 
 {% hint style="info" %}
- You can also simply make a python file with the following content
+&#x20;You can also simply make a python file with the following content
 {% endhint %}
 
 This is an example application
@@ -30,11 +30,10 @@ from expross import Expross
 
 app = Expross()
 
-@app.get("/")
 def main():
     return "<h1>Hello!</h1>"
     
+app.get("/", main)
 app.start()
 ```
 {% endcode %}
-
