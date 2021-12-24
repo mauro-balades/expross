@@ -11,7 +11,7 @@
   <p align="center">
     Expross is a lightweight web server to introduce JavaScript developers familiar with Express to Python.
     <br />
-    <a href="https://mauro-balades.gitbook.io/expross/"><strong>Explore the docs »</strong></a>
+    <a href="https://mauro-balades.gitbook.io/docs/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://mauro-balades.gitbook.io/expross/geting-started/basic-ussage">Example app</a>

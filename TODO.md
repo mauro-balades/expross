@@ -1,7 +1,6 @@
 
 DOCS:
     - Update docs with new functionalities
-    - Add set and get functrions
 
 EXPROSS:
     - Add more HTTP request modes
