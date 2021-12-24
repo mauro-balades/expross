@@ -2,7 +2,7 @@
 description: Get a route depending on the function's name
 ---
 
-# ♻️ url for
+# ♻ url for
 
 ## How to use it
 

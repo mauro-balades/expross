@@ -13,8 +13,8 @@
 * [🛑 Error handling](error-handling.md)
 * [🔗 Redirect](redirect.md)
 * [🛕 Templates](templates.md)
-* [♻️ url for](url-for.md)
-* [Variables](variables.md)
+* [♻ url for](url-for.md)
+* [📘 Variables](variables.md)
 * [📦 Serve static folders](serve-static-files.md)
 
 ## request and response
